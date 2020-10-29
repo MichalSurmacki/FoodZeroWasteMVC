@@ -1,0 +1,14 @@
+﻿@{
+    @using Application.Common.Dtos;
+    @model List<RecipieDto>
+
+}
+
+@{ 
+    foreach(RecipieDto recipie in Model)
+    {
+        <h1>@recipie.Title</h1>
+    }
+}
+
+<h1>Recipies</h1>

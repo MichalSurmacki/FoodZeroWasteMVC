@@ -1,0 +1,99 @@
+﻿@model Application.Common.Dtos.RecipieCreateDto
+
+@{ 
+    ViewBag.Title = "Dodaj przepis";
+}
+
+<form asp-controller="Recipies" asp-action="Create" method="post">
+    <div>
+        <label asp-for="Title">Tytuł przepisu</label>
+        <input asp-for="Title" />
+    </div>
+    <div>
+        <label asp-for="Servings">Ilość porcji</label>
+        <input asp-for="Servings" type="number" />
+    </div>
+    <div>
+        <label asp-for="AllKcal">Ilość Kcalori w całym przepisie</label>
+        <input asp-for="AllKcal" type="number" />
+    </div>
+    <div>
+        <label asp-for="AllCarbs">Ilość Węglowodanów w całym przepisie</label>
+        <input asp-for="AllCarbs" type="number" />
+    </div>
+    <div>
+        <label asp-for="AllProtein">Ilość Białek w całym przepisie</label>
+        <input asp-for="AllProtein" type="number" />
+    </div>
+    <div>
+        <label asp-for="AllFat">Ilość Tłuszczu w całym przepisie</label>
+        <input asp-for="AllFat" type="number" />
+    </div>
+
+    <!--********************************************************************-->
+    <!-- Tagowanie jak na stack overflow?? -->
+    <div>
+        <label asp-for="Tags">Tagi (oddzielone przecinkami)</label>
+        <input asp-for="Tags" />
+    </div>
+    <div>
+        <label asp-for="InstructionSteps">Instrukcje</label>
+        <input asp-for="InstructionSteps" />
+    </div>
+    <a href="#" class="btn btn-success" onclick="AddIngredient()">DODAJ INSTRUKCJE TEST</a>
+
+    <div>
+        <label asp-for="Components">Komponenty dania</label>
+        <input asp-for="Components" />
+    </div>
+    <a href="#" class="btn btn-success" onclick="AddIngredient()">DODAJ KOMPONENT TEST</a>
+
+    <div>
+        <label asp-for="Images">Zdjęcia</label>
+        <input asp-for="Images" />
+    </div>
+
+    <div>
+        <button type="submit">Stwórz Przepis</button>
+    </div>
+</form>
+
+<a href="#" class="btn btn-success" onclick="AddIngredient()">ELLLO MODAL WINDOOOOOOW</a>
+
+<div class="modal fade" id="AddIngredient">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(m => m.Title, new { @id = "Title" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Tags, new { @id = "Tags", @class = "form-control", @placeholder = "Tagi" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.AllCarbs, new { @id = "AllCarbs", @class = "form-control", @placeholder = "eeelo" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.AllKcal, new { @id = "AllKcal", @class = "form-control", @placeholder = "Tagiwewew" });
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-danger" id="SaveRecipie">Ok</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function AddIngredient() {
+        //$("#form")[0].reset();
+        //$("#ModalTitle").html("Add New Student");
+        $("#AddIngredient").modal();
+    }
+</script>

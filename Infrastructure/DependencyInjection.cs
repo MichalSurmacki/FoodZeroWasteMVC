@@ -1,4 +1,4 @@
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Infrastructure.Identity;
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
@@ -24,21 +24,26 @@ namespace Infrastructure
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection")));
-            
-            
+
+
             /*
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
             */
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>();
+
+            services.Configure<IdentityOptions>(opt =>
+            {
+                //tutaj możemy zmienić opcje dotyczące hasła, konta itd.
+                opt.Password.RequiredLength = 12;
+                opt.Password.RequiredUniqueChars = 6;
+            });
 
 
 
 
-            /*
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
-            */
             return services;
         }
     }

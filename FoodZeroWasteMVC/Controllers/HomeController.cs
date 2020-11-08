@@ -22,11 +22,19 @@ namespace FoodZeroWasteMVC.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult About()
         {
             return View();

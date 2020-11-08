@@ -33,8 +33,8 @@ namespace FoodZeroWasteMVC
             services.AddInfrastructure(Configuration);
 
             
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppIdentityDbContext>();
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<AppIdentityDbContext>();
             
             
             services.AddControllersWithViews();

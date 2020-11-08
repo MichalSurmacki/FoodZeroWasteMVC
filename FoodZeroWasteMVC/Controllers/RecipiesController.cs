@@ -1,8 +1,11 @@
 ﻿using Application.Common.Dtos;
+using Application.Recipies.Commands;
 using FoodZeroWaste.Application.Recipies.Queries;
+using FoodZeroWasteMVC.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace FoodZeroWasteMVC.Controllers
 {
@@ -15,7 +18,7 @@ namespace FoodZeroWasteMVC.Controllers
             _mediator = mediator;
         }
 
-        // GET lista wszystkich przepisów
+        // GET lista wszystkich przepisów - recipie
         public IActionResult Index()
         {
             var query = new GetAllRecipiesQuery();
@@ -31,18 +34,28 @@ namespace FoodZeroWasteMVC.Controllers
             return View(result);
         }
 
+        // GET forme do stworzenia nowego przepisu
         // Displays a form for creating a new resource. For example, displays a form for creating a new product.
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            CreateRecipieViewModel model = new CreateRecipieViewModel();
+            return View(model);
         }
 
+        // POST nowy przepis - recipie
         // Inserts a new resource into the database. Typically, you redirect to another action after performing an Insert.
         [HttpPost]
-        public IActionResult Create(RecipieCreateDto recipie)
+        public IActionResult Create(CreateRecipieViewModel model)
         {
-            return View();
+            model.Recipie.Components = model.Components;
+
+            RecipieCreateDto recipie = new RecipieCreateDto();
+
+            var command = new CreateRecipieCommand(recipie);
+            var result = _mediator.Send(command).Result;
+
+            return RedirectToAction("Details", new { id = result.Id });
         }
 
         // Displays a form for editing an existing resource.For example, displays a form for editing a product with an Id of 5.
@@ -67,6 +80,25 @@ namespace FoodZeroWasteMVC.Controllers
         public IActionResult Delete()
         {
             return View();
+        }
+
+
+
+
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult UpdateViewData(List<IngredientDto> model)
+        {
+            return PartialView("_DisplayListIngredientsDetails", model);
+        }
+
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult UpdateComponents(List<RecipieComponentDto> model)
+        {
+            return PartialView("_DisplayListComponentsDetails", model);
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model List<Application.Common.Dtos.IngredientDto>
+
+@{
+    ViewData.TemplateInfo.HtmlFieldPrefix = "Components[" + ViewBag.ComponentId + "].Ingredients";
+}
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <li>
+        <input class="readonly-input" asp-for="@Model[i].Name" readonly onfocus="this.blur()" />
+        <input class="readonly-input" asp-for="@Model[i].Amount" readonly onfocus="this.blur()" />
+        <input class="readonly-input" asp-for="@Model[i].Unit" readonly onfocus="this.blur()"/>
+        <input class="readonly-input" asp-for="@Model[i].Kcal" readonly onfocus="this.blur()"/>
+    </li>
+}

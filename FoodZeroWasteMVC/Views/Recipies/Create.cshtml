@@ -1,87 +1,141 @@
-﻿@model Application.Common.Dtos.RecipieCreateDto
+﻿@model CreateRecipieViewModel
 
-@{ 
+@{
     ViewBag.Title = "Dodaj przepis";
 }
 
-<form asp-controller="Recipies" asp-action="Create" method="post">
-    <div>
-        <label asp-for="Title">Tytuł przepisu</label>
-        <input asp-for="Title" />
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/recipies-create.css" />
+}
+
+
+<form asp-controller="Recipies" asp-action="Create" method="post" id="createRecipie">
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.Title">Tytuł przepisu</label>
+        <input asp-for="@Model.Recipie.Title" class="form-control" />
     </div>
-    <div>
-        <label asp-for="Servings">Ilość porcji</label>
-        <input asp-for="Servings" type="number" />
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.Servings">Ilość porcji</label>
+        <input asp-for="@Model.Recipie.Servings" type="number" class="form-control" />
     </div>
-    <div>
-        <label asp-for="AllKcal">Ilość Kcalori w całym przepisie</label>
-        <input asp-for="AllKcal" type="number" />
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.AllKcal">Ilość Kcalori w całym przepisie</label>
+        <input asp-for="@Model.Recipie.AllKcal" type="number" class="form-control" />
     </div>
-    <div>
-        <label asp-for="AllCarbs">Ilość Węglowodanów w całym przepisie</label>
-        <input asp-for="AllCarbs" type="number" />
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.AllCarbs">Ilość Węglowodanów w całym przepisie</label>
+        <input asp-for="@Model.Recipie.AllCarbs" type="number" class="form-control" />
     </div>
-    <div>
-        <label asp-for="AllProtein">Ilość Białek w całym przepisie</label>
-        <input asp-for="AllProtein" type="number" />
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.AllProtein">Ilość Białek w całym przepisie</label>
+        <input asp-for="@Model.Recipie.AllProtein" type="number" class="form-control" />
     </div>
-    <div>
-        <label asp-for="AllFat">Ilość Tłuszczu w całym przepisie</label>
-        <input asp-for="AllFat" type="number" />
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.AllFat">Ilość Tłuszczu w całym przepisie</label>
+        <input asp-for="@Model.Recipie.AllFat" type="number" class="form-control" />
     </div>
 
-    <!--********************************************************************-->
-    <!-- Tagowanie jak na stack overflow?? -->
-    <div>
-        <label asp-for="Tags">Tagi (oddzielone przecinkami)</label>
-        <input asp-for="Tags" />
-    </div>
-    <div>
-        <label asp-for="InstructionSteps">Instrukcje</label>
-        <input asp-for="InstructionSteps" />
-    </div>
-    <a href="#" class="btn btn-success" onclick="AddIngredient()">DODAJ INSTRUKCJE TEST</a>
-
-    <div>
-        <label asp-for="Components">Komponenty dania</label>
-        <input asp-for="Components" />
-    </div>
-    <a href="#" class="btn btn-success" onclick="AddIngredient()">DODAJ KOMPONENT TEST</a>
-
-    <div>
-        <label asp-for="Images">Zdjęcia</label>
-        <input asp-for="Images" />
+    <div class="form-group">
+        <label>Tagi (oddzielone przecinkami)</label>
+        <input type="text" data-role="tagsinput" id="tags" />
     </div>
 
-    <div>
-        <button type="submit">Stwórz Przepis</button>
+    <div class="form-group">
+        <label asp-for="@Model.Components">Komponenty dania</label>
+
+        <ul id="componentPartial">
+            <partial name="_DisplayListComponentsDetails" model="Model.Components" />
+        </ul>
+
+        <a class="btn btn-success form-control" onclick="showAddComponentModal()">Dodaj komponent do przepisu</a>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.InstructionSteps">Instrukcje</label>
+
+        <ul id="componentPartial">
+            <partial name="_DisplayListInstructionsDetails" model="Model.InstructionSteps" />
+        </ul>
+
+        <a class="btn btn-success form-control" onclick="AddIngredient()">DODAJ INSTRUKCJE TEST</a>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="@Model.Recipie.Images">Zdjęcia</label>
+        <input asp-for="@Model.Recipie.Images" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-block btn-danger">Stwórz Przepis</button>
     </div>
 </form>
 
-<a href="#" class="btn btn-success" onclick="AddIngredient()">ELLLO MODAL WINDOOOOOOW</a>
 
-<div class="modal fade" id="AddIngredient">
+<div class="modal fade" id="addComponentModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h4 id="ModalTitle"></h4>
+
+                <h4>Dodaj Komponent</h4>
+                <a class="close" data-dismiss="modal">&times;</a>
+
             </div>
             <div class="modal-body">
-                <form id="form">
-                    <fieldset id="SubmitForm">
-                        @Html.HiddenFor(m => m.Title, new { @id = "Title" })
+
+                <form id="addComponentForm">
+                    <fieldset id="submitForm">
+
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.Tags, new { @id = "Tags", @class = "form-control", @placeholder = "Tagi" })
+                            <input name="subTitle" type="text" placeholder="Nazwa komponentu" class="form-control" />
                         </div>
+                    </fieldset>
+                </form>
+
+                <div class="form-group">
+                    <ul id="partial">
+                        <partial name="_DisplayListIngredientsDetails" model="new List<Application.Common.Dtos.IngredientDto>()" />
+                    </ul>
+                </div>
+
+                <form id="addIngredientToComponentForm">
+                    <fieldset id="submitForm1">
+
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.AllCarbs, new { @id = "AllCarbs", @class = "form-control", @placeholder = "eeelo" })
+                            OD TEGO momentu dodajemy składnik:
                         </div>
+
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.AllKcal, new { @id = "AllKcal", @class = "form-control", @placeholder = "Tagiwewew" });
+                            <input name="name" type="text" placeholder="Nazwa składnika" class="form-control" />
                         </div>
+
                         <div class="form-group">
-                            <a href="#" class="btn btn-block btn-danger" id="SaveRecipie">Ok</a>
+                            <input name="unit" type="text" placeholder="Jednostka w której podawana jest ilość" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <input name="amount" type="number" placeholder="Ilość składnika" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <input name="kcal" type="number" placeholder="Kaloryczność" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            Kliknij aby dodać składnik
+                        </div>
+
+                        <div class="form-group">
+                            <a class="btn btn-success form-control" onclick="addIngredientToList()">Dodaj Składnik</a>
+                        </div>
+
+                        <div>
+                            Jeśli twój komponent jest gotowy zatwierdź jego utworzenie przyciskiem 'Ok'.
+                        </div>
+
+                        <div class="form-group">
+                            <a class="btn btn-block btn-danger" id="SaveRecipie" onclick="addComponent()">Ok</a>
                         </div>
                     </fieldset>
                 </form>
@@ -90,10 +144,122 @@
     </div>
 </div>
 
-<script>
-    function AddIngredient() {
-        //$("#form")[0].reset();
-        //$("#ModalTitle").html("Add New Student");
-        $("#AddIngredient").modal();
-    }
-</script>
+<div class="modal fade" id="AddIngredient">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4>Dodaj Instrukcje</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(m => m.Recipie.Title, new { @id = "Title" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Recipie.Tags, new { @id = "Tags", @class = "form-control", @placeholder = "Tagi" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Recipie.AllCarbs, new { @id = "AllCarbs", @class = "form-control", @placeholder = "eeelo" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Recipie.AllKcal, new { @id = "AllKcal", @class = "form-control", @placeholder = "Tagiwewew" })
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-block btn-danger" id="SaveRecipie">Ok</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function (event) {
+
+            //Do modala żeby po zamknięciu się resetował
+            $('#addComponentModal').on('hidden.bs.modal', function () {
+                $(this).find('form')[0].reset();
+                $(this).find('form')[1].reset();
+            });
+
+            //Tutaj ustawiam tagi
+            $('#createRecipie').on('submit', function () {
+                let tags = $('#tags').tagsinput('items');
+                for (let i in tags) {
+                    let tagName = 'Recipie.Tags[' + i + '].Value';
+                    console.log(tagName);
+                    let input = $("<input>")
+                        .attr("type", "hidden")
+                        .attr("name", tagName).val(tags[i]);
+                    $('#createRecipie').append(input);
+                }
+            });
+        });
+
+
+        function updateIngredients(ings) {
+            $.ajax({
+                url: window.location.origin + "/Recipies/UpdateViewData",
+                type: "post",
+                data: { 'model': ings },
+                success: function (result) {
+                    $("#partial").html(result);
+                }
+            });
+        }
+
+        const ings = [];
+
+        function addIngredientToList() {
+            let data = $("#addIngredientToComponentForm").serializeArray();
+            let obj = {};
+            for (let i in data) {
+                obj[data[i].name] = data[i].value;
+            };
+            ings.push(obj);
+
+            updateIngredients(ings);
+        }
+
+        const cmp = [];
+
+        function addComponent() {
+            let data = $("#addComponentForm").serializeArray();
+            let obj = {};
+            obj[data[0].name] = data[0].value;
+            obj['ingredients'] = $.extend(true, {}, ings);
+
+            cmp.push(obj);
+
+            if (ings.length > 0) {
+                $.ajax({
+                    url: window.location.origin + "/Recipies/UpdateComponents",
+                    type: "post",
+                    data: { 'model': cmp },
+                    success: function (result) {
+                        $("#componentPartial").html(result);
+                    }
+                });
+            }
+
+            ings.length = 0;
+            $("#partial").html('');
+            $("#addComponentModal").modal('hide');
+        }
+
+        function showAddComponentModal() {
+            $('#addComponentModal').modal();
+        }
+
+        function AddIngredient() {
+            $("#AddIngredient").modal();
+        }
+    </script>
+}

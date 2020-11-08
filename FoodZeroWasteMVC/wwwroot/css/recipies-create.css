@@ -1,0 +1,6 @@
+﻿input[readonly].readonly-input {
+    background-color: transparent;
+    border: 0;
+    font-size: 1em;
+    cursor: default;
+}

@@ -1,5 +1,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces
 {
@@ -11,5 +13,6 @@ namespace Application.Common.Interfaces
         DbSet<Ingredient> Ingredients { get; set; }
         DbSet<RecipieComponent> RecipieComponents { get; set; }
         DbSet<Tag> Tags { get; set; }
+        int SaveChanges();
     }
 }

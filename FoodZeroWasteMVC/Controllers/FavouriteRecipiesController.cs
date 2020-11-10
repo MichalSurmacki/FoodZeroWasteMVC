@@ -21,12 +21,15 @@ namespace FoodZeroWasteMVC.Controllers
 
         public IActionResult Index()
         {
+            //TODO
+            //Tutaj wyjęcie z bazy wszystkich ulubionych przepisów użytkownika
             return View();
         }
 
         [HttpPost]
         public IActionResult Create()
         {
+            //Nie zwracanie widoku tylko redirect
             return View();
         }
 

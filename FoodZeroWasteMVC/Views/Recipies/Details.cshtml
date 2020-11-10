@@ -6,7 +6,7 @@
 
 <h1>@Model.Id</h1>
 <h1>@Model.Title</h1>
-<>@{
+<h1>@{
     foreach (RecipieComponentDto ing in Model.Components)
     {
         foreach (IngredientDto ingg in ing.Ingredients)

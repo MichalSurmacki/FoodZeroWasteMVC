@@ -6,179 +6,184 @@
 
 @section Styles
 {
+    <link rel="stylesheet" href="~/css/tagsinput.css" />
     <link rel="stylesheet" href="~/css/recipies-create.css" />
 }
 
-
-<form asp-controller="Recipies" asp-action="Create" method="post" id="createRecipie">
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.Title">Tytuł przepisu</label>
-        <input asp-for="@Model.Recipie.Title" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.Servings">Ilość porcji</label>
-        <input asp-for="@Model.Recipie.Servings" type="number" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.AllKcal">Ilość Kcalori w całym przepisie</label>
-        <input asp-for="@Model.Recipie.AllKcal" type="number" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.AllCarbs">Ilość Węglowodanów w całym przepisie</label>
-        <input asp-for="@Model.Recipie.AllCarbs" type="number" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.AllProtein">Ilość Białek w całym przepisie</label>
-        <input asp-for="@Model.Recipie.AllProtein" type="number" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.AllFat">Ilość Tłuszczu w całym przepisie</label>
-        <input asp-for="@Model.Recipie.AllFat" type="number" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Tagi (oddzielone przecinkami)</label>
-        <input type="text" data-role="tagsinput" id="tags" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.Components">Komponenty dania</label>
-
-        <ul id="componentPartial">
-            <partial name="_DisplayListComponentsDetails" model="Model.Components" />
-        </ul>
-
-        <a class="btn btn-success form-control" onclick="showAddComponentModal()">Dodaj komponent do przepisu</a>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.InstructionSteps">Instrukcje</label>
-
-        <ul id="componentPartial">
-            <partial name="_DisplayListInstructionsDetails" model="Model.InstructionSteps" />
-        </ul>
-
-        <a class="btn btn-success form-control" onclick="AddIngredient()">DODAJ INSTRUKCJE TEST</a>
-    </div>
+<div class="zw-pink-lavender-bg w-25 p-2 rounded text-center">
 
 
-    <div class="form-group">
-        <label asp-for="@Model.Recipie.Images">Zdjęcia</label>
-        <input asp-for="@Model.Recipie.Images" class="form-control" />
-    </div>
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-block btn-danger">Stwórz Przepis</button>
-    </div>
-</form>
+    <form asp-controller="Recipies" asp-action="Create" method="post" id="createRecipie">
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.Title">Tytuł przepisu</label>
+            <input asp-for="@Model.Recipie.Title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.Servings">Ilość porcji</label>
+            <input asp-for="@Model.Recipie.Servings" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.AllKcal">Ilość Kcalori w całym przepisie</label>
+            <input asp-for="@Model.Recipie.AllKcal" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.AllCarbs">Ilość Węglowodanów w całym przepisie</label>
+            <input asp-for="@Model.Recipie.AllCarbs" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.AllProtein">Ilość Białek w całym przepisie</label>
+            <input asp-for="@Model.Recipie.AllProtein" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.AllFat">Ilość Tłuszczu w całym przepisie</label>
+            <input asp-for="@Model.Recipie.AllFat" type="number" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label>Tagi (oddzielone przecinkami)</label>
+            <input type="text" data-role="tagsinput" id="tags" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Components">Komponenty dania</label>
+
+            <ul id="componentPartial">
+                <partial name="_DisplayListComponentsDetails" model="Model.Components" />
+            </ul>
+
+            <a class="btn btn-success form-control" onclick="showAddComponentModal()">Dodaj komponent do przepisu</a>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.InstructionSteps">Instrukcje</label>
+
+            <ul id="componentPartial">
+                <partial name="_DisplayListInstructionsDetails" model="Model.InstructionSteps" />
+            </ul>
+
+            <a class="btn btn-success form-control" onclick="AddIngredient()">DODAJ INSTRUKCJE TEST</a>
+        </div>
 
 
-<div class="modal fade" id="addComponentModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="form-group">
+            <label asp-for="@Model.Recipie.Images">Zdjęcia</label>
+            <input asp-for="@Model.Recipie.Images" class="form-control" />
+        </div>
 
-                <h4>Dodaj Komponent</h4>
-                <a class="close" data-dismiss="modal">&times;</a>
+        <div class="form-group">
+            <button type="submit" class="btn btn-block btn-danger">Stwórz Przepis</button>
+        </div>
+    </form>
 
-            </div>
-            <div class="modal-body">
 
-                <form id="addComponentForm">
-                    <fieldset id="submitForm">
+    <div class="modal fade" id="addComponentModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
 
-                        <div class="form-group">
-                            <input name="subTitle" type="text" placeholder="Nazwa komponentu" class="form-control" />
-                        </div>
-                    </fieldset>
-                </form>
+                    <h4>Dodaj Komponent</h4>
+                    <a class="close" data-dismiss="modal">&times;</a>
 
-                <div class="form-group">
-                    <ul id="partial">
-                        <partial name="_DisplayListIngredientsDetails" model="new List<Application.Common.Dtos.IngredientDto>()" />
-                    </ul>
                 </div>
+                <div class="modal-body">
 
-                <form id="addIngredientToComponentForm">
-                    <fieldset id="submitForm1">
+                    <form id="addComponentForm">
+                        <fieldset id="submitForm">
 
-                        <div class="form-group">
-                            OD TEGO momentu dodajemy składnik:
-                        </div>
+                            <div class="form-group">
+                                <input name="subTitle" type="text" placeholder="Nazwa komponentu" class="form-control" />
+                            </div>
+                        </fieldset>
+                    </form>
 
-                        <div class="form-group">
-                            <input name="name" type="text" placeholder="Nazwa składnika" class="form-control" />
-                        </div>
+                    <div class="form-group">
+                        <ul id="partial">
+                            <partial name="_DisplayListIngredientsDetails" model="new List<Application.Common.Dtos.IngredientDto>()" />
+                        </ul>
+                    </div>
 
-                        <div class="form-group">
-                            <input name="unit" type="text" placeholder="Jednostka w której podawana jest ilość" class="form-control" />
-                        </div>
+                    <form id="addIngredientToComponentForm">
+                        <fieldset id="submitForm1">
 
-                        <div class="form-group">
-                            <input name="amount" type="number" placeholder="Ilość składnika" class="form-control" />
-                        </div>
+                            <div class="form-group">
+                                OD TEGO momentu dodajemy składnik:
+                            </div>
 
-                        <div class="form-group">
-                            <input name="kcal" type="number" placeholder="Kaloryczność" class="form-control" />
-                        </div>
+                            <div class="form-group">
+                                <input name="name" type="text" placeholder="Nazwa składnika" class="form-control" />
+                            </div>
 
-                        <div class="form-group">
-                            Kliknij aby dodać składnik
-                        </div>
+                            <div class="form-group">
+                                <input name="unit" type="text" placeholder="Jednostka w której podawana jest ilość" class="form-control" />
+                            </div>
 
-                        <div class="form-group">
-                            <a class="btn btn-success form-control" onclick="addIngredientToList()">Dodaj Składnik</a>
-                        </div>
+                            <div class="form-group">
+                                <input name="amount" type="number" placeholder="Ilość składnika" class="form-control" />
+                            </div>
 
-                        <div>
-                            Jeśli twój komponent jest gotowy zatwierdź jego utworzenie przyciskiem 'Ok'.
-                        </div>
+                            <div class="form-group">
+                                <input name="kcal" type="number" placeholder="Kaloryczność" class="form-control" />
+                            </div>
 
-                        <div class="form-group">
-                            <a class="btn btn-block btn-danger" id="SaveRecipie" onclick="addComponent()">Ok</a>
-                        </div>
-                    </fieldset>
-                </form>
+                            <div class="form-group">
+                                Kliknij aby dodać składnik
+                            </div>
+
+                            <div class="form-group">
+                                <a class="btn btn-success form-control" onclick="addIngredientToList()">Dodaj Składnik</a>
+                            </div>
+
+                            <div>
+                                Jeśli twój komponent jest gotowy zatwierdź jego utworzenie przyciskiem 'Ok'.
+                            </div>
+
+                            <div class="form-group">
+                                <a class="btn btn-block btn-danger" id="SaveRecipie" onclick="addComponent()">Ok</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddIngredient">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4>Dodaj Instrukcje</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+                    <h4 id="ModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <fieldset id="SubmitForm">
+                            @Html.HiddenFor(m => m.Recipie.Title, new { @id = "Title" })
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Recipie.Tags, new { @id = "Tags", @class = "form-control", @placeholder = "Tagi" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Recipie.AllCarbs, new { @id = "AllCarbs", @class = "form-control", @placeholder = "eeelo" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Recipie.AllKcal, new { @id = "AllKcal", @class = "form-control", @placeholder = "Tagiwewew" })
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-block btn-danger" id="SaveRecipie">Ok</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="AddIngredient">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <h4>Dodaj Instrukcje</h4>
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-
-                <h4 id="ModalTitle"></h4>
-            </div>
-            <div class="modal-body">
-                <form id="form">
-                    <fieldset id="SubmitForm">
-                        @Html.HiddenFor(m => m.Recipie.Title, new { @id = "Title" })
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.Recipie.Tags, new { @id = "Tags", @class = "form-control", @placeholder = "Tagi" })
-                        </div>
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.Recipie.AllCarbs, new { @id = "AllCarbs", @class = "form-control", @placeholder = "eeelo" })
-                        </div>
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.Recipie.AllKcal, new { @id = "AllKcal", @class = "form-control", @placeholder = "Tagiwewew" })
-                        </div>
-                        <div class="form-group">
-                            <a class="btn btn-block btn-danger" id="SaveRecipie">Ok</a>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts
 {
+    <script src="~/js/tagsinput.js"></script>
     <script>
 
         $(document).ready(function (event) {

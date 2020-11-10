@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Application;
 using Infrastructure;
 using Infrastructure.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace FoodZeroWasteMVC
 {
@@ -37,7 +39,13 @@ namespace FoodZeroWasteMVC
             //    .AddEntityFrameworkStores<AppIdentityDbContext>();
             
             
-            services.AddControllersWithViews();
+            services.AddControllersWithViews( options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
             services.AddRazorPages();
         }
 

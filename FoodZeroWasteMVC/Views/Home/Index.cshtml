@@ -1,15 +1,24 @@
-﻿@model LoginViewModel
+﻿@using Infrastructure.Identity
+@inject SignInManager<ApplicationUser> signInManager;
 @{
     ViewData["Title"] = "FoodZeroWaste";
-    Layout = "_LayoutStart";
 }
 
-<div class="text-center">
-    <h1>Food Zero Waste</h1>
-    <p>Jedz zdrowo i ogranicz wyrzucanie jedzenia!</p>
+@if (signInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1>Food Zero Waste</h1>
+        <h1>WitamyWitamy</h1> 
+    </div>
+}
+else
+{
+    <div class="zw-pink-lavender-bg w-25 p-2 rounded text-center">
+        <h1>Food Zero Waste</h1>
+        <p>Jedz zdrowo i ogranicz wyrzucanie jedzenia!</p>
 
-    <a class="btn btn-light" asp-action="login" asp-controller="account">Zaloguj sie</a>
+        <a class="btn btn-light" asp-action="login" asp-controller="account">Zaloguj sie</a>
 
-    <a class="btn btn-light" asp-action="register" asp-controller="account">Zarejestruj sie</a>
-
-</div>
+        <a class="btn btn-light" asp-action="register" asp-controller="account">Zarejestruj sie</a>
+    </div>
+}

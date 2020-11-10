@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using FoodZeroWasteMVC.Models;
 using FoodZeroWaste.Application.Recipies.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodZeroWasteMVC.Controllers
 {
@@ -23,13 +24,8 @@ namespace FoodZeroWasteMVC.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Register()
         {
             return View();
         }

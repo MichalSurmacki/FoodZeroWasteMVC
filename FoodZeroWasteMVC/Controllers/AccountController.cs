@@ -60,6 +60,16 @@ namespace FoodZeroWasteMVC.Controllers
             return View(model);
         }
 
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsEmailUsed(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user == null? Json(true) : Json($"Email {email} jest już zajęty");
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {

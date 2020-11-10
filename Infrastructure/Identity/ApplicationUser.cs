@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
@@ -10,5 +11,7 @@ namespace Infrastructure.Identity
         public int Age { get; set; }
         [PersonalData]
         public int Height { get; set; }
+        [PersonalData]
+        public Gender gender { get; set; }
     }
 }

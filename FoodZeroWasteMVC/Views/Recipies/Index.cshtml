@@ -1,14 +1,51 @@
-﻿@{
-    @using Application.Common.Dtos;
-    @model List<RecipieDto>
+﻿@using Application.Common.Dtos;
+@model List<RecipieDto>
 
+@{
+    ViewBag.Title = "Przepisy";
 }
 
-@{ 
-    foreach(RecipieDto recipie in Model)
-    {
-        <h1>@recipie.Title</h1>
-    }
+@section Styles
+{
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 }
 
-<h1>Recipies</h1>
+<div>
+    <h1>Lista Wszystkich Przepisów</h1>
+    <a asp-controller="Recipies" asp-action="Create" class="btn btn-dark">Dodaj przepis</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nazwa Przepisu</th>
+                <th>Dodaj do ulubionych</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (RecipieDto recipie in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-route-id="@recipie.Id" asp-controller="Recipies" asp-action="Details">
+                            @recipie.Title
+                        </a>
+                    </td>
+                    <td>
+                        <span class="material-icons" style="color: #846B8A">
+                            favorite_border
+                        </span>
+                        @*<span class="material-icons" style="color: #846B8A">
+                            favorite
+                        </span>
+                        <span class="material-icons">
+                            edit
+                        </span>
+                        <span class="material-icons">
+                            preview
+                        </span>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

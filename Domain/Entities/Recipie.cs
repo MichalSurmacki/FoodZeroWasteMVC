@@ -17,5 +17,7 @@ namespace Domain.Entities
         public IList<Tag> Tags { get; set; }
         public IList<RecipieComponent> Components { get; set; } 
         public IList<Image> Images { get; set; }
+        public string CreatedBy { get; set; }
+        public IList<FavouriteRecipie> FavouriteRecipies { get; set; }
     }
 }

@@ -4,42 +4,22 @@ using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201112083944_AddRecipieCreatedBy")]
+    partial class AddRecipieCreatedBy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Domain.Entities.FavouriteRecipie", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<Guid?>("RecipieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavouriteRecipies");
-                });
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
                 {
@@ -143,9 +123,7 @@ namespace Infrastructure.Persistance.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Servings")
                         .HasColumnType("int");
@@ -209,32 +187,6 @@ namespace Infrastructure.Persistance.Migrations
                     b.HasIndex("RecipieId");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserData", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserData");
-                });
-
-            modelBuilder.Entity("Domain.Entities.FavouriteRecipie", b =>
-                {
-                    b.HasOne("Domain.Entities.Recipie", "Recipie")
-                        .WithMany("FavouriteRecipies")
-                        .HasForeignKey("RecipieId");
-
-                    b.HasOne("Domain.Entities.UserData", "User")
-                        .WithMany("FavouritesRecipies")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Domain.Entities.Image", b =>

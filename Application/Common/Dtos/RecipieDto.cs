@@ -17,5 +17,6 @@ namespace Application.Common.Dtos
         public IList<TagDto> Tags { get; set; }
         public IList<RecipieComponentDto> Components { get; set; } 
         public IList<ImageDto> Images { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

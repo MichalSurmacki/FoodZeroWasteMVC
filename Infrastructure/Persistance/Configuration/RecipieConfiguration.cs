@@ -33,6 +33,10 @@ namespace Infrastructure.Persistance.Configuration
 
             builder.Property(r => r.AllProtein)
                 .IsRequired();
+
+            builder.Property(r => r.CreatedBy)
+                .IsRequired()
+                .HasMaxLength(250);
         }
     }
 }

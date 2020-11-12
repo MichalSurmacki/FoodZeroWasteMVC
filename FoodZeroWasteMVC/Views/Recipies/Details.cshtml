@@ -4,17 +4,36 @@
 }
 
 
-<h1>@Model.Id</h1>
-<h1>@Model.Title</h1>
-<h1>@{
-    foreach (RecipieComponentDto ing in Model.Components)
-    {
-        foreach (IngredientDto ingg in ing.Ingredients)
-        {
-            @ingg.Name;
-            @ingg.Unit;
-        }
-    }
+<div class="d-flex flex-column w-75">
+    <h2>@Model.Title</h2>
+    <div class="d-flex flex-row w-100">
+        <div class="d-flex flex-column w-75">
+            <h1>
+                @{
+                    foreach (RecipieComponentDto ing in Model.Components)
+                    {
+                        foreach (IngredientDto ingg in ing.Ingredients)
+                        {
+                            @ingg.Name;
+                            @ingg.Unit;
+                        }
+                    }
 
-}
-</h1>
+                }
+            </h1>
+        </div>
+        <div class="d-flex flex-column w-25">
+            @{ 
+                foreach (ImageDto img in Model.Images)
+                {
+                        <img src="@img.Url" alt="Flowers in Chania">
+                }
+            }
+            
+            <h1>XDDDDD</h1>
+            <h1>XDDDDD</h1>
+            <h1>XDDDDD</h1>
+            <h1>XDDDDD</h1>
+        </div>
+    </div>
+</div>

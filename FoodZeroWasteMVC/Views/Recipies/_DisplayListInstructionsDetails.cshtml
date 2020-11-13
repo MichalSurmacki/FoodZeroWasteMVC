@@ -7,7 +7,7 @@
 @for (int i = 0; i < Model.Count; i++)
 {
     <li>
-        <input asp-for="@Model[i].StepOrder" readonly />
-        <input asp-for="@Model[i].Step" readonly />
+        <input class="form-control-plaintext" asp-for="@Model[i].StepOrder" />
+        <input class="form-control-plaintext" asp-for="@Model[i].Step" />
     </li>
 }

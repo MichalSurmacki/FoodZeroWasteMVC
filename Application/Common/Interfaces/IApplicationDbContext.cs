@@ -13,6 +13,10 @@ namespace Application.Common.Interfaces
         DbSet<Ingredient> Ingredients { get; set; }
         DbSet<RecipieComponent> RecipieComponents { get; set; }
         DbSet<Tag> Tags { get; set; }
+
+        DbSet<UserData> UserData { get; set; }
+        DbSet<FavouriteRecipie> FavouriteRecipies { get; set; }
+        
         int SaveChanges();
     }
 }

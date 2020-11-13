@@ -1,39 +1,109 @@
 ﻿@{
     @using Application.Common.Dtos
     @model RecipieDto
+    List<InstructionStepDto> SortedList = Model.InstructionSteps.OrderBy(i => i.StepOrder).ToList();
 }
 
+@section Styles {
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+}
 
-<div class="d-flex flex-column w-75">
+<div class="d-flex flex-column align-items-center w-100">
+
     <h2>@Model.Title</h2>
-    <div class="d-flex flex-row w-100">
-        <div class="d-flex flex-column w-75">
-            <h1>
-                @{
-                    foreach (RecipieComponentDto ing in Model.Components)
-                    {
-                        foreach (IngredientDto ingg in ing.Ingredients)
-                        {
-                            @ingg.Name;
-                            @ingg.Unit;
-                        }
-                    }
 
-                }
-            </h1>
-        </div>
-        <div class="d-flex flex-column w-25">
-            @{ 
-                foreach (ImageDto img in Model.Images)
-                {
-                        <img src="@img.Url" alt="Flowers in Chania">
-                }
+    <p>Ilość porcji: @Model.Servings</p>
+
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">
+            <span class="material-icons">
+                restaurant
+            </span>
+            Kcal: @Model.AllKcal g
+        </li>
+        <li class="list-group-item">
+            <span class="material-icons">
+                restaurant
+            </span>
+            Białko: @Model.AllProtein g
+        </li>
+        <li class="list-group-item">
+            <span class="material-icons">
+                restaurant
+            </span>
+            Węglowodany: @Model.AllCarbs g
+        </li>
+        <li class="list-group-item">
+            <span class="material-icons">
+                restaurant
+            </span>
+            Tłuszcz: @Model.AllFat g
+        </li>
+    </ul>
+
+    <h5>Stworzone przez: @Model.CreatedBy</h5>
+
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column align-items-end w-50 pr-2">
+
+            @foreach (RecipieComponentDto ing in Model.Components)
+            {
+                <div class="card w-75">
+                    <div class="card-header">@ing.SubTitle</div>
+                    <div>
+                        <ul class="list-group">
+                            @foreach (IngredientDto ingg in ing.Ingredients)
+                            {
+                                <li class="list-group-item d-flex align-items-center">
+                                    <span class="pr-5 zw-flex-basis-70">
+                                        @ingg.Name
+                                    </span>
+                                    @if (ingg.Amount > 0 || ingg.Kcal > 0)
+                                    {
+                                        <div class="d-flex align-items-center zw-flex-basis-30">
+                                            @if (ingg.Amount > 0)
+                                            {
+                                                <span class="mr-auto">
+                                                    @ingg.Amount @ingg.Unit
+                                                </span>
+                                            }
+                                            @if (ingg.Kcal > 0)
+                                            {
+                                                <span class="badge">
+                                                    @ingg.Kcal Kcal
+                                                </span>
+                                            }
+                                        </div>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             }
-            
-            <h1>XDDDDD</h1>
-            <h1>XDDDDD</h1>
-            <h1>XDDDDD</h1>
-            <h1>XDDDDD</h1>
         </div>
+        <div class="d-flex flex-column align-items-start w-50 pl-2">
+            @foreach (InstructionStepDto ins in SortedList)
+            {
+                <div class="card w-75">
+                    <div class="card-header">@ins.Step</div>
+                </div>
+            }
+        </div>
+
     </div>
+
+    <ul class="list-group-horizontal">
+        @foreach (TagDto tag in Model.Tags)
+        {
+            <il class="badge p-2 zw-unbleached-silk-bg">
+                @tag.Value
+            </il>
+        }
+    </ul>
+
+
+
+
+
 </div>

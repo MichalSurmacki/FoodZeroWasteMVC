@@ -1,5 +1,6 @@
-﻿@using Application.Common.Dtos;
-@model List<RecipieDto>
+﻿@using FoodZeroWasteMVC.Models.Recipies;
+@using Application.Common.Dtos;
+@model RecipiesViewModel
 
 @{
     ViewBag.Title = "Przepisy";
@@ -7,7 +8,7 @@
 
 @section Styles
 {
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 }
 
 <div>
@@ -21,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (RecipieDto recipie in Model)
+            @foreach (RecipieDto recipie in Model.Recipies)
             {
                 <tr>
                     <td>
@@ -29,23 +30,71 @@
                             @recipie.Title
                         </a>
                     </td>
-                    <td>
-                        <span class="material-icons" style="color: #846B8A">
-                            favorite_border
-                        </span>
-                        @*<span class="material-icons" style="color: #846B8A">
-                            favorite
-                        </span>
-                        <span class="material-icons">
-                            edit
-                        </span>
-                        <span class="material-icons">
-                            preview
-                        </span>*@
+                    <td id="@recipie.Id" >
+                        @if (Model.FavouriteRecipies.Contains(recipie))
+                        {
+                            <partial name="_RemoveFavouriteRecipiePartial" model="recipie.Id" />
+                        }
+                        else
+                        {
+                            <partial name="_FavouriteRecipiePartial" model="recipie.Id" />
+                        }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    @{
+        var prevDisabled = !Model.Recipies.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.Recipies.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.Recipies.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.Recipies.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+
+
 </div>
 
+@section Scripts
+{
+    <script>
+
+        function addToFavourites(id) {
+
+            $.ajax({
+                url: window.location.origin + "/Recipies/AddToFavourites",
+                type: "post",
+                data: { 'id': id },
+                success: function (result) {
+                    let qid = '#' + id;
+                    $(qid).html(result);
+                }
+            });
+
+        }
+
+        function removeFromFavourites(id) {
+
+            $.ajax({
+                url: window.location.origin + "/Recipies/RemoveFromFavourites",
+                type: "post",
+                data: { 'id': id },
+                success: function (result) {
+                    let qid = '#' + id;
+                    $(qid).html(result);
+                }
+            });
+
+        }
+
+    </script>
+}

@@ -51,7 +51,7 @@ namespace Infrastructure.Persistance
 
             builder.Entity<UserData>()
                 .HasMany(u => u.FavouritesRecipies)
-                .WithOne(f => f.User);
+                .WithOne(f => f.UserData);
 
             //te 2 linijki wystarczyły żeby w Persistance/Configuration umiescic to FluentAPI i "zczytało?" z tamtąd jak ma wyglądać ogranienie??? (???)
             //chyba nie ten interfejs sam jakos to robi??

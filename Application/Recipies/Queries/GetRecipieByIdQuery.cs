@@ -9,7 +9,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodZeroWaste.Application.Recipies.Queries
+namespace Application.Recipies.Queries
 {
     public class GetRecipieByIdQuery : IRequest<RecipieDto>
     {

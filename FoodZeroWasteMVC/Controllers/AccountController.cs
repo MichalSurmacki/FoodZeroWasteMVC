@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
 using FoodZeroWasteMVC.Models;
 using Infrastructure.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Application.Account.Commands;
 
 namespace FoodZeroWasteMVC.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IMediator _mediator;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMediator mediator)
         {
+            _mediator = mediator;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -42,6 +47,12 @@ namespace FoodZeroWasteMVC.Controllers
                     //isPersistent mówi o tym czy użytkownik ma być dalej zalogowany po zamknięciu przeglądarki - ustawia jakieś cookie
                     //session cookie false permanent cookie true
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    //TODO co z ten zwrotem result2 ??
+                    var command = new AddUserDataToAppDbCommand(user.Email);
+                    var result2 = _mediator.Send(command);
+
+
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
                         return LocalRedirect(returnUrl);

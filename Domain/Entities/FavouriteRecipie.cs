@@ -8,6 +8,6 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public Recipie Recipie { get; set; }
-        public UserData User { get; set; }
+        public UserData UserData { get; set; }
     }
 }

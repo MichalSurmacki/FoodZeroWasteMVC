@@ -1,9 +1,12 @@
 ﻿using Application.Common.Dtos;
 using Application.Recipies.Commands;
-using FoodZeroWaste.Application.Recipies.Queries;
+using Application.Recipies.Queries;
 using FoodZeroWasteMVC.Models;
+using FoodZeroWasteMVC.Models.Recipies;
+using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,18 +16,28 @@ namespace FoodZeroWasteMVC.Controllers
     public class RecipiesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public RecipiesController(IMediator mediator)
+        public RecipiesController(IMediator mediator, UserManager<ApplicationUser> userManager)
         {
             _mediator = mediator;
+            _userManager = userManager;
         }
 
         // GET lista wszystkich przepisów - recipie
-        public IActionResult Index()
+        public IActionResult Index(int pageNumber = 1, int pageSize = 10)
         {
-            var query = new GetAllRecipiesQuery();
+            var query = new GetUserFavouriteRecipiesQuery(User.Identity.Name);
             var result = _mediator.Send(query).Result;
-            return View(result);
+
+            var query2 = new GetRecipiesPaginationQuery(pageNumber, pageSize);
+            var result2 = _mediator.Send(query2).Result;
+
+            var model = new RecipiesViewModel();
+            model.FavouriteRecipies = result;
+            model.Recipies = result2;
+
+            return View(model);
         }
 
         // GET recipie o danym id
@@ -83,10 +96,6 @@ namespace FoodZeroWasteMVC.Controllers
             return View();
         }
 
-
-
-
-
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public IActionResult UpdateViewData(List<IngredientDto> model)
@@ -100,6 +109,23 @@ namespace FoodZeroWasteMVC.Controllers
         public IActionResult UpdateComponents(List<RecipieComponentDto> model)
         {
             return PartialView("_DisplayListComponentsDetails", model);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult AddToFavourites(Guid id)
+        {
+            var command = new AddRecipieToFavouritesCommand(id, User.Identity.Name);
+            var result = _mediator.Send(command);
+
+            return PartialView("_RemoveFavouriteRecipiePartial", id);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult RemoveFromFavourites(Guid id)
+        {
+            return PartialView("_FavouriteRecipiePartial", id);
         }
     }
 }

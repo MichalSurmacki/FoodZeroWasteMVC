@@ -31,7 +31,7 @@
                         </a>
                     </td>
                     <td id="@recipie.Id" >
-                        @if (Model.FavouriteRecipies.Contains(recipie))
+                        @if (Model.FavouriteRecipies.Any(f => f.Id.Equals(recipie.Id)))
                         {
                             <partial name="_RemoveFavouriteRecipiePartial" model="recipie.Id" />
                         }

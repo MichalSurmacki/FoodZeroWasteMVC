@@ -1,3 +1,5 @@
+using Application.Common.Mappings;
+using Domain.Entities;
 using System.Collections.Generic;
 
 namespace Application.Common.Dtos

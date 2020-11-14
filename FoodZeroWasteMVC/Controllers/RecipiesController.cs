@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FoodZeroWasteMVC.Controllers
 {
@@ -27,6 +28,7 @@ namespace FoodZeroWasteMVC.Controllers
         // GET lista wszystkich przepisów - recipie
         public IActionResult Index(int pageNumber = 1, int pageSize = 10)
         {
+
             var query = new GetUserFavouriteRecipiesQuery(User.Identity.Name);
             var result = _mediator.Send(query).Result;
 
@@ -62,11 +64,13 @@ namespace FoodZeroWasteMVC.Controllers
         [HttpPost]
         public IActionResult Create(CreateRecipieViewModel model)
         {
+            //osobne propertki bo jak get to zeby nie wyswietlalo na stronce zer
             model.Recipie.Components = model.Components;
+            model.Recipie.InstructionSteps = model.InstructionSteps;
+            
+            model.Recipie.CreatedBy = User.Identity.Name;
 
-            RecipieCreateDto recipie = new RecipieCreateDto();
-
-            var command = new CreateRecipieCommand(recipie);
+            var command = new CreateRecipieCommand(model.Recipie);
             var result = _mediator.Send(command).Result;
 
             return RedirectToAction("Details", new { id = result.Id });
@@ -125,6 +129,9 @@ namespace FoodZeroWasteMVC.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult RemoveFromFavourites(Guid id)
         {
+            var command = new RemoveRecipieFromFavouritesCommand(id, User.Identity.Name);
+            var result = _mediator.Send(command);
+
             return PartialView("_FavouriteRecipiePartial", id);
         }
     }

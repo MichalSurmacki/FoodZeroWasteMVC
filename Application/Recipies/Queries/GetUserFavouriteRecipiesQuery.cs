@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,9 @@ namespace Application.Recipies.Queries
 
         public async Task<List<RecipieDto>> Handle(GetUserFavouriteRecipiesQuery request, CancellationToken cancellationToken)
         {
-            var fav = _context.FavouriteRecipies.Where(f => f.UserData.Email.Equals(request.UserName)).ToList();
+            var fav = _context.FavouriteRecipies
+                .Include(x => x.Recipie)
+                .Where(f => f.UserData.Email.Equals(request.UserName)).ToList();
 
             var ans = fav.Select(f => f.Recipie).ToList();
 

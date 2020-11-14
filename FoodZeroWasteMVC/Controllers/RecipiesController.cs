@@ -102,9 +102,16 @@ namespace FoodZeroWasteMVC.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult UpdateViewData(List<IngredientDto> model)
+        public IActionResult UpdateInstructionsSteps(List<InstructionStepDto> model)
         {
-            return PartialView("_DisplayListIngredientsDetails", model);
+            return PartialView("_InstructionsListPartial", model);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult UpdateIngredients(List<IngredientDto> model)
+        {
+            return PartialView("_IngredientsListPartial", model);
         }
 
 
@@ -112,7 +119,7 @@ namespace FoodZeroWasteMVC.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult UpdateComponents(List<RecipieComponentDto> model)
         {
-            return PartialView("_DisplayListComponentsDetails", model);
+            return PartialView("_ComponentsListPartial", model);
         }
 
         [HttpPost]

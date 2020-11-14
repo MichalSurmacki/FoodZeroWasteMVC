@@ -1,4 +1,4 @@
-﻿@model CreateRecipieViewModel
+﻿@model FoodZeroWasteMVC.Models.Recipies.CreateRecipieViewModel
 
 @{
     ViewBag.Title = "Dodaj przepis";
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/css/recipies-create.css" />
 }
 
-<div class="zw-pink-lavender-bg w-25 p-2 rounded text-center">
+<div class="zw-pink-lavender-bg w-50 p-2 rounded text-center">
     <form asp-controller="Recipies" asp-action="Create" method="post" id="createRecipie">
         <div class="form-group">
             <label asp-for="@Model.Recipie.Title">Tytuł przepisu</label>
@@ -55,11 +55,11 @@
         <div class="form-group">
             <label asp-for="@Model.InstructionSteps">Instrukcje</label>
 
-            <ul id="componentPartial">
+            <ul id="instructionStepsPartial">
                 <partial name="_InstructionsListPartial" model="Model.InstructionSteps" />
             </ul>
 
-            <a class="btn btn-success form-control" onclick="AddIngredient()">DODAJ INSTRUKCJE TEST</a>
+            <a class="btn btn-success form-control" onclick="addInstructionStepModal()">DODAJ INSTRUKCJE TEST</a>
         </div>
 
 
@@ -145,7 +145,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="AddIngredient">
+    <div class="modal fade" id="addInstructionStepModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,7 +156,7 @@
                     <h4 id="ModalTitle"></h4>
                 </div>
                 <div class="modal-body">
-                    <form id="form">
+                    <form id="addInstrStepForm">
                         <fieldset id="SubmitForm">
 
                             <div class="form-group">
@@ -201,13 +201,36 @@
             });
         });
 
+        // INSTRUKCJE
+        const instr = [];
+
         function addInstructionStep() {
-            console.log("instruction added");
+            let data = $('#addInstrStepForm').serializeArray();
+            let obj = {};
+            obj[data[0].name] = data[0].value;
+            obj['steporder'] = instr.length;
+            instr.push(obj);
+
+            updateIntr();
         }
 
+        function updateIntr() {
+            $.ajax({
+                url: window.location.origin + "/Recipies/UpdateInstructionsSteps",
+                type: "post",
+                data: { 'model': instr },
+                success: function (result) {
+                    $("#instructionStepsPartial").html(result);
+                }
+            });
+        }
+        // END INSTRUKCJE
+
+
+        // SKŁADNIKI
         function updateIngredients(ings) {
             $.ajax({
-                url: window.location.origin + "/Recipies/UpdateViewData",
+                url: window.location.origin + "/Recipies/UpdateIngredients",
                 type: "post",
                 data: { 'model': ings },
                 success: function (result) {
@@ -228,7 +251,9 @@
 
             updateIngredients(ings);
         }
+        // END SKŁADNIKI
 
+        // KOMPONENTY
         const cmp = [];
 
         function addComponent() {
@@ -254,13 +279,16 @@
             $("#partial").html('');
             $("#addComponentModal").modal('hide');
         }
+        // END KOMPONENTY
 
+        // MODALE
         function showAddComponentModal() {
             $('#addComponentModal').modal();
         }
 
-        function AddIngredient() {
-            $("#AddIngredient").modal();
+        function addInstructionStepModal() {
+            $("#addInstructionStepModal").modal();
         }
+        // END MODALE
     </script>
 }

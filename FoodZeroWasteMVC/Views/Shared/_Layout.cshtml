@@ -32,6 +32,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                                 </li>
+                                <li class="dropdown nav-link text-dark">
+                                    <a class="dropdown-toggle zw-cursor-pointer" id="dropdownMenuLink" data-toggle="dropdown">Przepisy<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" asp-controller="Recipies" asp-action="Index">Wszystkie</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Recipies" asp-action="Create">Dodaj</a></li>
+                                        <li><a class="dropdown-item">Ulubione</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">

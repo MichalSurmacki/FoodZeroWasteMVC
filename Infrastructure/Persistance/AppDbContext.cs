@@ -21,6 +21,9 @@ namespace Infrastructure.Persistance
         public DbSet<UserData> UserData { get; set; }
         public DbSet<FavouriteRecipie> FavouriteRecipies { get; set; }
 
+        public DbSet<Product> Products { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

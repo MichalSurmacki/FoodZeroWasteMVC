@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Products.Queries;
+using FoodZeroWasteMVC.Models.Products;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace FoodZeroWasteMVC.Controllers
             _mediator = mediator;
         }
 
+        //W indexie widok tej lodówki
         public IActionResult Index()
         {
             var query = new GetSimilarProductsQuery("Mąka");
@@ -35,8 +37,14 @@ namespace FoodZeroWasteMVC.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View()
+            CreateProductViewModel model = new CreateProductViewModel();
+            return View(model);
         }
 
+        [HttpPost]
+        public IActionResult Create(CreateProductViewModel model)
+        {
+            return View();
+        }
     }
 }

@@ -17,12 +17,10 @@ namespace FoodZeroWasteMVC.Controllers
     public class RecipiesController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public RecipiesController(IMediator mediator, UserManager<ApplicationUser> userManager)
+        public RecipiesController(IMediator mediator)
         {
             _mediator = mediator;
-            _userManager = userManager;
         }
 
         // GET lista wszystkich przepisów - recipie

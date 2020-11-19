@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FoodZeroWasteMVC.Models.Products.CreateProductViewModel
+
 @{
+    ViewBag.Title = "Dodaj Produkt";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css" />
+}
+
+<h3>Dodawanie Produktu</h3>
+
+<div class="zw-pink-lavender-bg w-50 p-2 rounded text-center">
+    <form asp-controller="Products" asp-action="Create" method="post" id="createProduct">
+        <div class="form-group">
+            <label asp-for="@Model.Product.Name">Nazwa</label>
+            <input asp-for="@Model.Product.Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Product.Unit">Jednostka</label>
+            <input asp-for="@Model.Product.Unit" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Product.Amount">Ilość</label>
+            <input asp-for="@Model.Product.Amount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ExpirationDate">Data ważności</label>
+            <input asp-for="@Model.ExpirationDate" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-block btn-success">Dodaj produkt do lodówki!</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Product_Name").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Products/NameAutoComplition",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item, value: item };
+                            }))
+                        }
+                    })
+                },
+                minLength: 4
+            });
+        })
+
+    </script>
 }

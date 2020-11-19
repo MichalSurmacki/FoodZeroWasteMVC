@@ -20,9 +20,7 @@ namespace Infrastructure.Persistance
 
         public DbSet<UserData> UserData { get; set; }
         public DbSet<FavouriteRecipie> FavouriteRecipies { get; set; }
-
         public DbSet<Product> Products { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -55,6 +53,10 @@ namespace Infrastructure.Persistance
             builder.Entity<UserData>()
                 .HasMany(u => u.FavouritesRecipies)
                 .WithOne(f => f.UserData);
+
+            builder.Entity<UserData>()
+                .HasMany(u => u.Products)
+                .WithOne(p => p.UserData);
 
             //te 2 linijki wystarczyły żeby w Persistance/Configuration umiescic to FluentAPI i "zczytało?" z tamtąd jak ma wyglądać ogranienie??? (???)
             //chyba nie ten interfejs sam jakos to robi??

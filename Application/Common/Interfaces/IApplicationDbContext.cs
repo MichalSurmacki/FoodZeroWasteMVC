@@ -16,7 +16,9 @@ namespace Application.Common.Interfaces
 
         DbSet<UserData> UserData { get; set; }
         DbSet<FavouriteRecipie> FavouriteRecipies { get; set; }
-        
+
+        DbSet<Product> Products { get; set; }
+
         int SaveChanges();
     }
 }

@@ -1,5 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Application.Common.Dtos
+@model FoodZeroWasteMVC.Models.Products.ProductsViewModel
+
+<div class="list-group w-100 align-items-center justify-content-center">
+    <div class="zw-pink-lavender-bg list-group-item w-75 d-flex flex-row justify-content-center align-items-center">
+        <p class="font-weight-bold zw-flex-basis-35">
+            Nazwa
+        </p>
+
+        <p class="font-weight-bold zw-flex-basis-15 text-center">
+            Ilość produktu
+        </p>
+
+        <p class="font-weight-bold zw-flex-basis-15 text-center mr-auto">
+            Termin ważności
+        </p>
+
+        <p class="font-weight-bold">
+            Dostępne akcje
+        </p>
+    </div>
+    @foreach (ProductReadDto product in Model.Products)
+    {
+        var id = "id" + product.Id.ToString();
+        <div class="list-group-item w-75 d-flex flex-row justify-content-center align-items-center">
+            <p class="font-weight-bold zw-flex-basis-35">
+                @product.Name
+            </p>
+
+            <p class="zw-flex-basis-15 text-center">
+                @product.Amount
+                @product.Unit
+            </p>
+
+            <p class="zw-flex-basis-15 text-center mr-auto">
+                @product.ExpirationDate.Date.ToString("dd.MM.yyyy")
+            </p>
+
+            <a class="btn btn-primary" data-toggle="collapse" href="#@id" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Dodaj ilość
+            </a>
+        </div>
+
+        <div class="collapse w-75 d-flex" id="@id">
+            <div class="card card-body">
+
+                <input asp-for="@product.Amount" />
+
+                <a class="btn btn-primary" data-toggle="collapse" href="#@id" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Edytuj inne szczegóły
+                </a>
+            </div>
+        </div>
+    }
+</div>

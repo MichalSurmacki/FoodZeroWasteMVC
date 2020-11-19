@@ -1,0 +1,23 @@
+﻿@model FoodZeroWasteMVC.Models.Products.DetailsProductViewModel
+
+<div class="zw-pink-lavender-bg w-50 p-2 rounded text-center">
+    <form asp-controller="Products" asp-action="Create" method="post" id="createProduct">
+        <div class="form-group">
+            <label asp-for="@Model.Product.Name">Nazwa</label>
+            <input asp-for="@Model.Product.Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Product.Unit">Jednostka</label>
+            <input asp-for="@Model.Product.Unit" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Product.Amount">Ilość</label>
+            <input asp-for="@Model.Product.Amount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Product.ExpirationDate">Data ważności</label>
+            <input asp-for="@Model.Product.ExpirationDate" class="form-control" />
+        </div>
+        <a asp-action="Update" asp-controller="Products" class="btn btn-block btn-success">Dodaj produkt do lodówki!</a>
+    </form>
+</div>

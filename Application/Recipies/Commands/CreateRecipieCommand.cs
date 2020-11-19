@@ -18,6 +18,7 @@ namespace Application.Recipies.Commands
             Recipie = recipie;
         }
     }
+
     public class CreateRecipieCommandHandler : IRequestHandler<CreateRecipieCommand, RecipieDto>
     {
         private readonly IMapper _mapper;
@@ -32,15 +33,10 @@ namespace Application.Recipies.Commands
         public Task<RecipieDto> Handle(CreateRecipieCommand request, CancellationToken cancellationToken)
         {
             var recipie = _mapper.Map<Recipie>(request.Recipie);
-            
             _context.Recipies.Add(recipie);
             _context.SaveChanges();
-
-            Guid id = recipie.Id;
-
-            var recipieDto = _mapper.Map<RecipieDto>(recipie);
             
-            return Task.FromResult(recipieDto);
+            return Task.FromResult(_mapper.Map<RecipieDto>(recipie));
         }
     }
 }

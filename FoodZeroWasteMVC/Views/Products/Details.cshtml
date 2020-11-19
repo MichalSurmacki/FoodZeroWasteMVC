@@ -1,5 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model FoodZeroWasteMVC.Models.Products.DetailsProductViewModel
+
+<div class="zw-pink-lavender-bg w-50 p-2 rounded text-center d-flex flex-column align-items-center">
+
+    <h2>@Model.Product.Name</h2>
+
+    <h2>@Model.Product.Amount @Model.Product.Unit</h2>
+
+    <h2>@Model.Product.ExpirationDate</h2>
+
+    <a asp-action="Edit" asp-controller="Products" asp-route-id="@Model.Product.Id" class="btn">Edit</a>
+
+</div>

@@ -35,6 +35,10 @@ namespace Application.Common.Mappings
             CreateMap<Image, ImageDto>();
             CreateMap<Ingredient, IngredientDto>();
             CreateMap<InstructionStep, InstructionStepDto>();
+
+
+            CreateMap<Product, ProductReadDto>();
+            CreateMap<ProductCreateDto, Product>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

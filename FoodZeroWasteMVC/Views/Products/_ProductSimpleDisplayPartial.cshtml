@@ -1,0 +1,17 @@
+﻿@model Application.Common.Dtos.ProductReadDto
+
+<div class="list-group-item w-75 d-flex flex-row justify-content-center align-items-center">
+    <p class="font-weight-bold zw-flex-basis-35">
+        @Model.Name
+    </p>
+    <p class="zw-flex-basis-15 text-center">
+        @Model.Amount
+        @Model.Unit
+    </p>
+    <p class="zw-flex-basis-15 text-center mr-auto">
+        @Model.ExpirationDate.Date.ToString("dd.MM.yyyy")
+    </p>
+    <a class="btn btn-primary" asp-action="Edit" asp-controller="Products" asp-route-id="@Model.Id">
+        Edytuj
+    </a>
+</div>

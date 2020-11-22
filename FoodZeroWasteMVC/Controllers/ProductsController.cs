@@ -20,7 +20,6 @@ namespace FoodZeroWasteMVC.Controllers
             _mediator = mediator;
         }
 
-        //W indexie widok tej lodówki
         public IActionResult Index()
         {
             var query = new GetProductsByUserQuery(User.Identity.Name);
@@ -76,14 +75,14 @@ namespace FoodZeroWasteMVC.Controllers
             return View(model);
         }
 
-        [HttpPatch]
-        public IActionResult Update()
+        [HttpPost]
+        public IActionResult Update(DetailsProductViewModel model)
         {
-            return View();
+            var command = new UpdateProductCommand(model.Product);
+            var result = _mediator.Send(command);
+            
+            return RedirectToAction("Index");
         }
-
-
-
 
         [HttpPost]
         public JsonResult NameAutoComplition(string prefix)

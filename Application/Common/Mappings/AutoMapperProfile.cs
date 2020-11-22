@@ -23,9 +23,6 @@ namespace Application.Common.Mappings
             CreateMap<RecipieCreateDto, Recipie>();
             CreateMap<IngredientDto, Ingredient>();
 
-
-
-
             CreateMap<Recipie, RecipieCreateDto>();
 
             CreateMap<RecipieCreateDto, RecipieDto>();
@@ -35,7 +32,6 @@ namespace Application.Common.Mappings
             CreateMap<Image, ImageDto>();
             CreateMap<Ingredient, IngredientDto>();
             CreateMap<InstructionStep, InstructionStepDto>();
-
 
             CreateMap<Product, ProductReadDto>();
             CreateMap<ProductCreateDto, Product>();

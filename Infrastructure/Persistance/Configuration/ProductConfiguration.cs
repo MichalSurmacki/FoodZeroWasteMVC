@@ -17,16 +17,15 @@ namespace Infrastructure.Persistance.Configuration
 
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsUnicode();
 
             builder.Property(p => p.Unit)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsUnicode();
 
             builder.Property(p => p.Amount)
-                .IsRequired();
-
-            builder.Property(p => p.ExpirationDate)
                 .IsRequired();
         }
     }

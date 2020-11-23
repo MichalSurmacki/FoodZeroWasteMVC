@@ -35,7 +35,7 @@ namespace Application.Products.Queries
         public Task<List<ProductReadDto>> Handle(GetProductsByUserQuery request, CancellationToken cancellationToken)
         {
             var user = _context.UserData.FirstOrDefault(u => u.Email.Equals(request.UserName));
-            var products = _context.Products.Where(p => p.UserData.Id.Equals(user.Id)).ToList();
+            var products = _context.Products.Where(p => p.Id.Equals(user.Id)).ToList(); // TODO
 
             return Task.FromResult(_mapper.Map<List<ProductReadDto>>(products));
         }

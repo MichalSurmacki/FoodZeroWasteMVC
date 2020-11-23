@@ -32,7 +32,7 @@ namespace Application.Products.Commands
             var product = _context.Products.FirstOrDefault(p => p.Id.Equals(request.Product.Id));
 
             product.Name = request.Product.Name;
-            product.ExpirationDate = request.Product.ExpirationDate;
+            // TODO product.ExpirationDate = request.Product.ExpirationDate;
             product.Amount = request.Product.Amount;
             product.Unit = request.Product.Unit;
 

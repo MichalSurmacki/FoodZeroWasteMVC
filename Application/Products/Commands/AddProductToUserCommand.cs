@@ -39,7 +39,7 @@ namespace Application.Products.Commands
             var userData = _context.UserData.FirstOrDefault(u => u.Email.Equals(request.Name));
 
             var product = _context.Products.FirstOrDefault(p => p.Id.Equals(request.Product.Id));
-            product.UserData = userData;
+            // TODO product.UserData = userData;
 
             _context.SaveChanges();
 

@@ -10,7 +10,6 @@ namespace Domain.Entities
         public string Name { get; set; }
         public float Amount { get; set; }
         public string Unit { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public UserData UserData { get; set; }
+        public IList<Tag> Tags { get; set; }
     }
 }

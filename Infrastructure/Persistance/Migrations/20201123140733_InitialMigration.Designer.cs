@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201112130535_FavouriteRecipiesMigration")]
-    partial class FavouriteRecipiesMigration
+    [Migration("20201123140733_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,14 +31,14 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<Guid?>("RecipieId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("UserDataId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RecipieId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserDataId");
 
                     b.ToTable("FavouriteRecipies");
                 });
@@ -125,6 +125,33 @@ namespace Infrastructure.Persistance.Migrations
                     b.ToTable("InstructionsSteps");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50)
+                        .IsUnicode(true);
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50)
+                        .IsUnicode(true);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("Domain.Entities.Recipie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -197,6 +224,9 @@ namespace Infrastructure.Persistance.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("RecipieId")
                         .HasColumnType("uniqueidentifier");
 
@@ -207,6 +237,8 @@ namespace Infrastructure.Persistance.Migrations
                         .IsUnicode(true);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("RecipieId");
 
@@ -221,11 +253,39 @@ namespace Infrastructure.Persistance.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250)
+                        .IsUnicode(true);
 
                     b.HasKey("Id");
 
                     b.ToTable("UserData");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserDataId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserDataId");
+
+                    b.ToTable("UserProduct");
                 });
 
             modelBuilder.Entity("Domain.Entities.FavouriteRecipie", b =>
@@ -234,9 +294,9 @@ namespace Infrastructure.Persistance.Migrations
                         .WithMany("FavouriteRecipies")
                         .HasForeignKey("RecipieId");
 
-                    b.HasOne("Domain.Entities.UserData", "User")
+                    b.HasOne("Domain.Entities.UserData", "UserData")
                         .WithMany("FavouritesRecipies")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserDataId");
                 });
 
             modelBuilder.Entity("Domain.Entities.Image", b =>
@@ -269,9 +329,24 @@ namespace Infrastructure.Persistance.Migrations
 
             modelBuilder.Entity("Domain.Entities.Tag", b =>
                 {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("Tags")
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("Domain.Entities.Recipie", "Recipie")
                         .WithMany("Tags")
                         .HasForeignKey("RecipieId");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserProduct", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Domain.Entities.UserData", "UserData")
+                        .WithMany("UserProducts")
+                        .HasForeignKey("UserDataId");
                 });
 #pragma warning restore 612, 618
         }

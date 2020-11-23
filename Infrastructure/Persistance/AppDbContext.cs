@@ -38,10 +38,6 @@ namespace Infrastructure.Persistance
                 .HasMany(r => r.Components)
                 .WithOne(c => c.Recipie);
 
-            builder.Entity<RecipieComponent>()
-                .HasMany(r => r.Ingredients)
-                .WithOne(i => i.RecipieComponent);
-
             builder.Entity<Recipie>()
                 .HasMany(r => r.Tags)
                 .WithOne(t => t.Recipie);
@@ -50,13 +46,24 @@ namespace Infrastructure.Persistance
                 .HasMany(r => r.FavouriteRecipies)
                 .WithOne(f => f.Recipie);
 
+
+            builder.Entity<RecipieComponent>()
+                .HasMany(r => r.Ingredients)
+                .WithOne(i => i.RecipieComponent);
+
+
             builder.Entity<UserData>()
                 .HasMany(u => u.FavouritesRecipies)
                 .WithOne(f => f.UserData);
 
             builder.Entity<UserData>()
-                .HasMany(u => u.Products)
+                .HasMany(u => u.UserProducts)
                 .WithOne(p => p.UserData);
+
+
+            builder.Entity<Product>()
+                .HasMany(p => p.Tags)
+                .WithOne(t => t.Product);
 
             //te 2 linijki wystarczyły żeby w Persistance/Configuration umiescic to FluentAPI i "zczytało?" z tamtąd jak ma wyglądać ogranienie??? (???)
             //chyba nie ten interfejs sam jakos to robi??

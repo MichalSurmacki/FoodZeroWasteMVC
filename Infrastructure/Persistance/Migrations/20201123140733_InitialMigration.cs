@@ -3,10 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Persistance.Migrations
 {
-    public partial class AppInitMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Amount = table.Column<float>(nullable: false),
+                    Unit = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Recipies",
                 columns: table => new
@@ -18,11 +32,24 @@ namespace Infrastructure.Persistance.Migrations
                     AllKcal = table.Column<float>(nullable: false),
                     AllCarbs = table.Column<float>(nullable: false),
                     AllProtein = table.Column<float>(nullable: false),
-                    AllFat = table.Column<float>(nullable: false)
+                    AllFat = table.Column<float>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserData",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    Email = table.Column<string>(maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserData", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,15 +116,73 @@ namespace Infrastructure.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     Value = table.Column<string>(maxLength: 100, nullable: false),
-                    RecipieId = table.Column<Guid>(nullable: true)
+                    RecipieId = table.Column<Guid>(nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Tags_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Tags_Recipies_RecipieId",
                         column: x => x.RecipieId,
                         principalTable: "Recipies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavouriteRecipies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    RecipieId = table.Column<Guid>(nullable: true),
+                    UserDataId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavouriteRecipies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavouriteRecipies_Recipies_RecipieId",
+                        column: x => x.RecipieId,
+                        principalTable: "Recipies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FavouriteRecipies_UserData_UserDataId",
+                        column: x => x.UserDataId,
+                        principalTable: "UserData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserProduct",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    ProductId = table.Column<Guid>(nullable: true),
+                    ExpirationDate = table.Column<DateTime>(nullable: false),
+                    UserDataId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProduct", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserProduct_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserProduct_UserData_UserDataId",
+                        column: x => x.UserDataId,
+                        principalTable: "UserData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -125,6 +210,16 @@ namespace Infrastructure.Persistance.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_FavouriteRecipies_RecipieId",
+                table: "FavouriteRecipies",
+                column: "RecipieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavouriteRecipies_UserDataId",
+                table: "FavouriteRecipies",
+                column: "UserDataId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_RecipieId",
                 table: "Images",
                 column: "RecipieId");
@@ -145,13 +240,31 @@ namespace Infrastructure.Persistance.Migrations
                 column: "RecipieId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tags_ProductId",
+                table: "Tags",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tags_RecipieId",
                 table: "Tags",
                 column: "RecipieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProduct_ProductId",
+                table: "UserProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProduct_UserDataId",
+                table: "UserProduct",
+                column: "UserDataId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FavouriteRecipies");
+
             migrationBuilder.DropTable(
                 name: "Images");
 
@@ -165,7 +278,16 @@ namespace Infrastructure.Persistance.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
+                name: "UserProduct");
+
+            migrationBuilder.DropTable(
                 name: "RecipieComponents");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "UserData");
 
             migrationBuilder.DropTable(
                 name: "Recipies");

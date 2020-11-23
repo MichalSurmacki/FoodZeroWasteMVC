@@ -17,7 +17,8 @@ namespace Infrastructure.Persistance.Configuration
 
             builder.Property(u => u.Email)
                 .IsRequired()
-                .HasMaxLength(250);
+                .HasMaxLength(250)
+                .IsUnicode();
         }
     }
 }

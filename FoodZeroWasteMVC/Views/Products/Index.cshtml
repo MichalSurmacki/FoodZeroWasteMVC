@@ -19,7 +19,7 @@
             Dostępne akcje
         </p>
     </div>
-    @foreach (ProductReadDto product in Model.Products)
+    @foreach (UserProductReadDto product in Model.Products)
     {
         <partial name="_ProductSimpleDisplayPartial" model="@product" />
     }

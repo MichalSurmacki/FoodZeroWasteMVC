@@ -12,18 +12,20 @@ using System.Threading.Tasks;
 
 namespace Application.Products.Commands
 {
-    public class AddProductToUserCommand : IRequest<bool>
+    public class AddProductToUserCommand : IRequest<UserProductReadDto>
     {
-        public string Name { get; set; }
         public ProductReadDto Product { get; set; }
-        public AddProductToUserCommand(string name, ProductReadDto product)
+        public string UserName { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public AddProductToUserCommand(ProductReadDto product, string userName, DateTime expirationDate)
         {
-            Name = name;
             Product = product;
+            UserName = userName;
+            ExpirationDate = expirationDate;
         }
     }
 
-    public class AddProductToUserCommandHandler : IRequestHandler<AddProductToUserCommand, bool>
+    public class AddProductToUserCommandHandler : IRequestHandler<AddProductToUserCommand, UserProductReadDto>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -34,16 +36,22 @@ namespace Application.Products.Commands
             _context = context;
         }
 
-        public Task<bool> Handle(AddProductToUserCommand request, CancellationToken cancellationToken)
+        public Task<UserProductReadDto> Handle(AddProductToUserCommand request, CancellationToken cancellationToken)
         {
-            var userData = _context.UserData.FirstOrDefault(u => u.Email.Equals(request.Name));
-
+            var userData = _context.UserData.FirstOrDefault(u => u.Email.Equals(request.UserName));
             var product = _context.Products.FirstOrDefault(p => p.Id.Equals(request.Product.Id));
-            // TODO product.UserData = userData;
 
-            _context.SaveChanges();
+            UserProduct userProduct = new UserProduct()
+            {
+                UserData = userData,
+                Product = product,
+                ExpirationDate = request.ExpirationDate
+            };
 
-            return Task.FromResult(true);
+            _context.UserProducts.Add(userProduct);
+            _context.SaveChanges();            
+
+            return Task.FromResult(_mapper.Map<UserProductReadDto>(userProduct));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Domain.Entities
     public class FavouriteRecipie
     {
         public Guid Id { get; set; }
-        public Recipie Recipie { get; set; }
-        public UserData UserData { get; set; }
+        public virtual Recipie Recipie { get; set; }
+        public virtual UserData UserData { get; set; }
     }
 }

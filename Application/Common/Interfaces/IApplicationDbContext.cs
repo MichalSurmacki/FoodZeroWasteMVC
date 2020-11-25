@@ -15,9 +15,12 @@ namespace Application.Common.Interfaces
         DbSet<Tag> Tags { get; set; }
 
         DbSet<UserData> UserData { get; set; }
+        DbSet<UserProduct> UserProducts { get; set; }
         DbSet<FavouriteRecipie> FavouriteRecipies { get; set; }
 
         DbSet<Product> Products { get; set; }
+
+        DbSet<UserSessionCaloriesLog> UserCaloriesLogs { get; set; }
 
         int SaveChanges();
     }

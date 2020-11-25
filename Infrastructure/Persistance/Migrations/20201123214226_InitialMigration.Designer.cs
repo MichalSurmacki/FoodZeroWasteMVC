@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201123140733_InitialMigration")]
+    [Migration("20201123214226_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,27 +72,18 @@ namespace Infrastructure.Persistance.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
-
                     b.Property<float>("Kcal")
                         .HasColumnType("real");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100)
-                        .IsUnicode(true);
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("RecipieComponentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30)
-                        .IsUnicode(true);
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("RecipieComponentId");
 
@@ -137,8 +128,8 @@ namespace Infrastructure.Persistance.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100)
                         .IsUnicode(true);
 
                     b.Property<string>("Unit")
@@ -243,6 +234,8 @@ namespace Infrastructure.Persistance.Migrations
                     b.HasIndex("RecipieId");
 
                     b.ToTable("Tags");
+
+                    b.HasCheckConstraint("constraint_tag", "(ProductId IS NOT NULL AND RecipieId IS NULL) OR (ProductId IS NULL AND RecipieId IS NOT NULL)");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserData", b =>
@@ -285,7 +278,7 @@ namespace Infrastructure.Persistance.Migrations
 
                     b.HasIndex("UserDataId");
 
-                    b.ToTable("UserProduct");
+                    b.ToTable("UserProducts");
                 });
 
             modelBuilder.Entity("Domain.Entities.FavouriteRecipie", b =>
@@ -308,6 +301,10 @@ namespace Infrastructure.Persistance.Migrations
 
             modelBuilder.Entity("Domain.Entities.Ingredient", b =>
                 {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
                     b.HasOne("Domain.Entities.RecipieComponent", "RecipieComponent")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipieComponentId");

@@ -6,7 +6,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public string Value { get; set; }
-        public Recipie Recipie { get; set; }
-        public Product Product { get; set; }
+        public virtual Recipie Recipie { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

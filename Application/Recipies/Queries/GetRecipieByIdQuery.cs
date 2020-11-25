@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Recipies.Queries
 {
-    public class GetRecipieByIdQuery : IRequest<RecipieDto>
+    public class GetRecipieByIdQuery : IRequest<RecipieReadDto>
     {
         public Guid RecipieId { get; set; }
         public GetRecipieByIdQuery(Guid recipieId)
@@ -19,7 +19,7 @@ namespace Application.Recipies.Queries
             RecipieId = recipieId;
         }
 
-        public class GetRecipieByIdQueryHandler : IRequestHandler<GetRecipieByIdQuery, RecipieDto>
+        public class GetRecipieByIdQueryHandler : IRequestHandler<GetRecipieByIdQuery, RecipieReadDto>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -29,19 +29,21 @@ namespace Application.Recipies.Queries
                 _mapper = mapper;
                 _context = context;
             }
-            public async Task<RecipieDto> Handle(GetRecipieByIdQuery request, CancellationToken cancellationToken)
+            public async Task<RecipieReadDto> Handle(GetRecipieByIdQuery request, CancellationToken cancellationToken)
             {
-                var recipie = _context.Recipies.FirstOrDefault(r => r.Id.Equals(request.RecipieId));
-                recipie.InstructionSteps = _context.InstructionsSteps.Where(i => i.Recipie.Id.Equals(request.RecipieId)).ToList();
-                recipie.Tags = _context.Tags.Where(t => t.Recipie.Id.Equals(request.RecipieId)).ToList();
-                recipie.Images = _context.Images.Where(i => i.Recipie.Id.Equals(request.RecipieId)).ToList();
-                recipie.Components = _context.RecipieComponents.Where(r => r.Recipie.Id.Equals(request.RecipieId)).ToList();
-                foreach(RecipieComponent component in recipie.Components)
-                {
-                    component.Ingredients = _context.Ingredients.Where(i => i.RecipieComponent.Id.Equals(component.Id)).ToList();
-                }
+                var recipie = _context.Recipies
+                    .Include(r => r.InstructionSteps)
+                    .Include(r => r.Tags)
+                    .Include(r => r.Images)
+                    .Include(r => r.Components)
+                        .ThenInclude(c => c.Ingredients)
+                            .ThenInclude(i => i.Product)
+                    
+                    .FirstOrDefault(r => r.Id.Equals(request.RecipieId));
 
-                return await Task.FromResult(_mapper.Map<RecipieDto>(recipie));
+                recipie.InstructionSteps = recipie.InstructionSteps.OrderBy(i => i.StepOrder).ToList();
+
+                return await Task.FromResult(_mapper.Map<RecipieReadDto>(recipie));
             }
         }
     }

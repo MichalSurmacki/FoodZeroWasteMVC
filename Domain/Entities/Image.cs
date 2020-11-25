@@ -6,6 +6,6 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public string Url { get; set; }
-        public Recipie Recipie { get; set; }
+        public virtual Recipie Recipie { get; set; }
     }
 }

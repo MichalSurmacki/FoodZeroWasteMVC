@@ -1,6 +1,8 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
+using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,26 +35,77 @@ namespace Application.Products.Queries
 
         public Task<List<string>> Handle(GetSimilarProductsQuery request, CancellationToken cancellationToken)
         {
-            var result = _context.Ingredients
-                .Select(i => i.Name)
-                .Distinct()
-                .ToList();
+            request.SearchString = request.SearchString.ToLower();
+            request.SearchString = request.SearchString.Trim();
+            var searchStrings = request.SearchString.Split(" ");
 
-            var xd = result.OrderBy(i => StringsSimilarityAlgorithm.Calculate(i, request.SearchString))
-                .Take(request.Amount)
-                .ToList();
-
-            return Task.FromResult(xd);
-        }
-
-        double StringSimilarityScore(string name, string searchString)
-        {
-            if (name.Contains(searchString))
+            if(searchStrings.Length <= 1)
             {
-                return (double)searchString.Length / (double)name.Length;
+                var tags = _context.Tags
+                    .Include(t => t.Product)
+                    .Where(t => (t.Product != null) && (t.Value.Contains(searchStrings[0])))
+                    .ToList();
+
+                var list = tags.Select(t => t.Product.Name).ToList();
+                list = list.Distinct().Take(request.Amount).ToList();
+
+                return Task.FromResult(list);
             }
 
-            return 0;
+            List<List<Tag>> tagsLists = new List<List<Tag>>();
+
+            //Wybieranie z bazy tagów
+            foreach (string s in searchStrings)
+            {
+                tagsLists.Add(_context.Tags
+                .Include(t => t.Product)
+                .Where(t => (t.Product != null) && (t.Value.Contains(s)))
+                .ToList());
+            }
+
+            //List<Product> commonProducts = new List<Product>();
+
+            var commonProducts = tagsLists[0].Select(t => t.Product).Intersect(tagsLists[1].Select(t => t.Product)).ToList();
+
+            //Nie ma produktu/ów o tych samych tagach
+            if(commonProducts.Count == 0)
+            {
+                var list = tagsLists[0].Select(t => t.Product.Name).ToList();
+                list = list.Distinct().Take(request.Amount).ToList();
+                return Task.FromResult(list);
+            }
+
+            //Jeśli lista jest długości 2 i commonProducts > 0
+            if (searchStrings.Length == 2)
+            {
+                var list = commonProducts.Select(t => t.Name).ToList();
+                list = list.Distinct().Take(request.Amount).ToList();
+                return Task.FromResult(list);
+            }
+            //Jeśli lista jest większa niż 2
+            else
+            {
+
+                List<Product> mostCommonList = commonProducts.ToList();
+
+                //Wyszukieanie wspólnych tagów
+                for (int i = 2; i < tagsLists.Count; i++)
+                {
+
+                    commonProducts = commonProducts.Intersect(tagsLists[i].Select(t => t.Product)).ToList();
+                    if(commonProducts.Count == 0)
+                    {
+                        commonProducts = mostCommonList.ToList();
+                    }
+                    else
+                    {
+                        mostCommonList = commonProducts.ToList();
+                    }
+                }
+                var list = commonProducts.Select(t => t.Name).ToList();
+                list = list.Distinct().Take(request.Amount).ToList();
+                return Task.FromResult(list);
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Infrastructure.Persistance.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     Amount = table.Column<float>(nullable: false),
                     Unit = table.Column<string>(maxLength: 50, nullable: false)
                 },
@@ -122,6 +122,7 @@ namespace Infrastructure.Persistance.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.CheckConstraint("constraint_tag", "(ProductId IS NOT NULL AND RecipieId IS NULL) OR (ProductId IS NULL AND RecipieId IS NOT NULL)");
                     table.ForeignKey(
                         name: "FK_Tags_Products_ProductId",
                         column: x => x.ProductId,
@@ -162,25 +163,25 @@ namespace Infrastructure.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProduct",
+                name: "UserProducts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    ProductId = table.Column<Guid>(nullable: true),
                     ExpirationDate = table.Column<DateTime>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: true),
                     UserDataId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProduct", x => x.Id);
+                    table.PrimaryKey("PK_UserProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserProduct_Products_ProductId",
+                        name: "FK_UserProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserProduct_UserData_UserDataId",
+                        name: "FK_UserProducts_UserData_UserDataId",
                         column: x => x.UserDataId,
                         principalTable: "UserData",
                         principalColumn: "Id",
@@ -192,15 +193,19 @@ namespace Infrastructure.Persistance.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Amount = table.Column<float>(nullable: false),
-                    Unit = table.Column<string>(maxLength: 30, nullable: true),
+                    ProductId = table.Column<Guid>(nullable: true),
                     Kcal = table.Column<float>(nullable: false),
                     RecipieComponentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingredients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ingredients_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Ingredients_RecipieComponents_RecipieComponentId",
                         column: x => x.RecipieComponentId,
@@ -223,6 +228,11 @@ namespace Infrastructure.Persistance.Migrations
                 name: "IX_Images_RecipieId",
                 table: "Images",
                 column: "RecipieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredients_ProductId",
+                table: "Ingredients",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_RecipieComponentId",
@@ -250,13 +260,13 @@ namespace Infrastructure.Persistance.Migrations
                 column: "RecipieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProduct_ProductId",
-                table: "UserProduct",
+                name: "IX_UserProducts_ProductId",
+                table: "UserProducts",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProduct_UserDataId",
-                table: "UserProduct",
+                name: "IX_UserProducts_UserDataId",
+                table: "UserProducts",
                 column: "UserDataId");
         }
 
@@ -278,7 +288,7 @@ namespace Infrastructure.Persistance.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "UserProduct");
+                name: "UserProducts");
 
             migrationBuilder.DropTable(
                 name: "RecipieComponents");

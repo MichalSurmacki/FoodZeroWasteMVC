@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Application.Common.Dtos
 {
-    public class RecipieDto
+    public class RecipieReadDto
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

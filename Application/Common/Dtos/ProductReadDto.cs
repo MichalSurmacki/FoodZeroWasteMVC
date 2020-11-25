@@ -10,6 +10,6 @@ namespace Application.Common.Dtos
         public string Name { get; set; }
         public float Amount { get; set; }
         public string Unit { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public virtual IList<TagDto> Tags { get; set; }
     }
 }

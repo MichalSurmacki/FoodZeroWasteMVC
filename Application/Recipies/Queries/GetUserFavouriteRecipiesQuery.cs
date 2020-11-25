@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Recipies.Queries
 {
-    public class GetUserFavouriteRecipiesQuery : IRequest<List<RecipieDto>>
+    public class GetUserFavouriteRecipiesQuery : IRequest<List<RecipieReadDto>>
     {
         public string UserName { get; set; }
         public GetUserFavouriteRecipiesQuery(string userName)
@@ -20,7 +20,7 @@ namespace Application.Recipies.Queries
         }
     }
 
-    public class GetUserFavouriteRecipiesQueryHandle : IRequestHandler<GetUserFavouriteRecipiesQuery, List<RecipieDto>>
+    public class GetUserFavouriteRecipiesQueryHandle : IRequestHandler<GetUserFavouriteRecipiesQuery, List<RecipieReadDto>>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -31,7 +31,7 @@ namespace Application.Recipies.Queries
             _context = context;
         }
 
-        public async Task<List<RecipieDto>> Handle(GetUserFavouriteRecipiesQuery request, CancellationToken cancellationToken)
+        public async Task<List<RecipieReadDto>> Handle(GetUserFavouriteRecipiesQuery request, CancellationToken cancellationToken)
         {
             var fav = _context.FavouriteRecipies
                 .Include(x => x.Recipie)
@@ -39,7 +39,7 @@ namespace Application.Recipies.Queries
 
             var ans = fav.Select(f => f.Recipie).ToList();
 
-            return await Task.FromResult(_mapper.Map<List<RecipieDto>>(ans));
+            return await Task.FromResult(_mapper.Map<List<RecipieReadDto>>(ans));
         }
     }
 }

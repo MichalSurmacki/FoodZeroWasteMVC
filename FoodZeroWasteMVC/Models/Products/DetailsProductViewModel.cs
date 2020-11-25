@@ -8,6 +8,6 @@ namespace FoodZeroWasteMVC.Models.Products
 {
     public class DetailsProductViewModel
     {
-        public ProductReadDto Product { get; set; }
+        public UserProductReadDto UserProduct { get; set; }
     }
 }

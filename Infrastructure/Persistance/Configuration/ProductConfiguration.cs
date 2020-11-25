@@ -17,7 +17,7 @@ namespace Infrastructure.Persistance.Configuration
 
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode();
 
             builder.Property(p => p.Unit)

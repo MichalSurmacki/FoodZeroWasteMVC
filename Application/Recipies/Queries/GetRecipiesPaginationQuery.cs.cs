@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Recipies.Queries
 {
-    public class GetRecipiesPaginationQuery : IRequest<PaginatedList<RecipieDto>>
+    public class GetRecipiesPaginationQuery : IRequest<PaginatedList<RecipieReadDto>>
     {
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
@@ -24,7 +24,7 @@ namespace Application.Recipies.Queries
         }
     }
 
-    public class GetRecipiesPaginationQueryHandler : IRequestHandler<GetRecipiesPaginationQuery, PaginatedList<RecipieDto>>
+    public class GetRecipiesPaginationQueryHandler : IRequestHandler<GetRecipiesPaginationQuery, PaginatedList<RecipieReadDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -35,9 +35,9 @@ namespace Application.Recipies.Queries
             _mapper = mapper;
         }
 
-        public async Task<PaginatedList<RecipieDto>> Handle(GetRecipiesPaginationQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<RecipieReadDto>> Handle(GetRecipiesPaginationQuery request, CancellationToken cancellationToken)
         {
-            var dd = _context.Recipies.Select(m => new RecipieDto
+            var dd = _context.Recipies.Select(m => new RecipieReadDto
             {
                 Id = m.Id,
                 Title = m.Title,
@@ -45,7 +45,7 @@ namespace Application.Recipies.Queries
                 AllCarbs = m.AllCarbs
             });
             
-            var a = await PaginatedList<RecipieDto>.CreateAsync(dd.AsNoTracking(), request.PageNumber, request.PageSize);
+            var a = await PaginatedList<RecipieReadDto>.CreateAsync(dd.AsNoTracking(), request.PageNumber, request.PageSize);
 
             return a;
         }

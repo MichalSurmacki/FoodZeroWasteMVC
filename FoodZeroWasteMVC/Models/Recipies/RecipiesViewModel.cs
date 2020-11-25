@@ -9,8 +9,8 @@ namespace FoodZeroWasteMVC.Models.Recipies
 {
     public class RecipiesViewModel
     {
-        public List<RecipieDto> FavouriteRecipies { get; set; }
+        public List<RecipieReadDto> FavouriteRecipies { get; set; }
 
-        public PaginatedList<RecipieDto> Recipies { get; set; }
+        public PaginatedList<RecipieReadDto> Recipies { get; set; }
     }
 }

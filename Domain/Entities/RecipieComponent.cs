@@ -7,7 +7,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public string SubTitle { get; set; }
-        public IList<Ingredient> Ingredients { get; set; }
-        public Recipie Recipie { get; set; }
+        public virtual IList<Ingredient> Ingredients { get; set; }
+        public virtual Recipie Recipie { get; set; }
     }
 }

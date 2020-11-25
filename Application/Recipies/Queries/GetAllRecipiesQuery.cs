@@ -11,12 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Recipies.Queries
 {
-    public class GetAllRecipiesQuery : IRequest<List<RecipieDto>>
+    public class GetAllRecipiesQuery : IRequest<List<RecipieReadDto>>
     {
         
     }
 
-    public class GetAllRecipiesQueryHandler : IRequestHandler<GetAllRecipiesQuery, List<RecipieDto>>
+    public class GetAllRecipiesQueryHandler : IRequestHandler<GetAllRecipiesQuery, List<RecipieReadDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace Application.Recipies.Queries
             _mapper = mapper;
         }
 
-        public async Task<List<RecipieDto>> Handle(GetAllRecipiesQuery request, CancellationToken cancellationToken)
+        public async Task<List<RecipieReadDto>> Handle(GetAllRecipiesQuery request, CancellationToken cancellationToken)
         { 
             var allRecipies =  _context.Recipies.ToList();
             var allTags =  _context.Tags.ToList();
@@ -48,7 +48,7 @@ namespace Application.Recipies.Queries
                 }
                 recipie.Components = recipieComponents;
             }
-            return await Task.FromResult(_mapper.Map<List<RecipieDto>>(allRecipies));
+            return await Task.FromResult(_mapper.Map<List<RecipieReadDto>>(allRecipies));
         }
     }
 }

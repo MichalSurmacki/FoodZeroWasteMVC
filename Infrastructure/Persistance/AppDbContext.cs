@@ -19,8 +19,11 @@ namespace Infrastructure.Persistance
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<UserData> UserData { get; set; }
+        public DbSet<UserProduct> UserProducts { get; set; }
+
         public DbSet<FavouriteRecipie> FavouriteRecipies { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<UserSessionCaloriesLog> UserCaloriesLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -60,10 +63,18 @@ namespace Infrastructure.Persistance
                 .HasMany(u => u.UserProducts)
                 .WithOne(p => p.UserData);
 
+            builder.Entity<UserData>()
+                .HasMany(u => u.UserCaloriesLogs)
+                .WithOne(p => p.UserData);
+
 
             builder.Entity<Product>()
                 .HasMany(p => p.Tags)
                 .WithOne(t => t.Product);
+
+
+            builder.Entity<Tag>()
+                .HasCheckConstraint("constraint_tag", "(ProductId IS NOT NULL AND RecipieId IS NULL) OR (ProductId IS NULL AND RecipieId IS NOT NULL)");
 
             //te 2 linijki wystarczyły żeby w Persistance/Configuration umiescic to FluentAPI i "zczytało?" z tamtąd jak ma wyglądać ogranienie??? (???)
             //chyba nie ten interfejs sam jakos to robi??

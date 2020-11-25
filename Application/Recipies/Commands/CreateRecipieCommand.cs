@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Application.Recipies.Commands
 {
-    public class CreateRecipieCommand : IRequest<RecipieDto>
+    public class CreateRecipieCommand : IRequest<RecipieReadDto>
     {
         public RecipieCreateDto Recipie { get; set; }
         public CreateRecipieCommand(RecipieCreateDto recipie)
@@ -19,7 +19,7 @@ namespace Application.Recipies.Commands
         }
     }
 
-    public class CreateRecipieCommandHandler : IRequestHandler<CreateRecipieCommand, RecipieDto>
+    public class CreateRecipieCommandHandler : IRequestHandler<CreateRecipieCommand, RecipieReadDto>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -30,13 +30,13 @@ namespace Application.Recipies.Commands
             _context = context;
         }
 
-        public Task<RecipieDto> Handle(CreateRecipieCommand request, CancellationToken cancellationToken)
+        public Task<RecipieReadDto> Handle(CreateRecipieCommand request, CancellationToken cancellationToken)
         {
             var recipie = _mapper.Map<Recipie>(request.Recipie);
             _context.Recipies.Add(recipie);
             _context.SaveChanges();
             
-            return Task.FromResult(_mapper.Map<RecipieDto>(recipie));
+            return Task.FromResult(_mapper.Map<RecipieReadDto>(recipie));
         }
     }
 }

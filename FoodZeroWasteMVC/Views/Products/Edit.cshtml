@@ -3,22 +3,22 @@
 <div class="zw-pink-lavender-bg w-50 p-2 rounded text-center">
     <form asp-controller="Products" asp-action="Create" method="post" id="createProduct">
         <div class="form-group">
-            <label asp-for="@Model.Product.Name">Nazwa</label>
-            <input asp-for="@Model.Product.Name" class="form-control" />
+            <label asp-for="@Model.UserProduct.Product.Name">Nazwa</label>
+            <input asp-for="@Model.UserProduct.Product.Name" class="form-control" />
         </div>
         <div class="form-group">
-            <label asp-for="@Model.Product.Unit">Jednostka</label>
-            <input asp-for="@Model.Product.Unit" class="form-control" />
+            <label asp-for="@Model.UserProduct.Product.Unit">Jednostka</label>
+            <input asp-for="@Model.UserProduct.Product.Unit" class="form-control" />
         </div>
         <div class="form-group">
-            <label asp-for="@Model.Product.Amount">Ilość</label>
-            <input asp-for="@Model.Product.Amount" class="form-control" />
+            <label asp-for="@Model.UserProduct.Product.Amount">Ilość</label>
+            <input asp-for="@Model.UserProduct.Product.Amount" class="form-control" />
         </div>
         <div class="form-group">
-            <label asp-for="@Model.Product.ExpirationDate">Data ważności</label>
-            <input asp-for="@Model.Product.ExpirationDate" class="form-control" />
+            <label asp-for="@Model.UserProduct.ExpirationDate">Data ważności</label>
+            <input asp-for="@Model.UserProduct.ExpirationDate" class="form-control" />
         </div>
-        <input asp-for="@Model.Product.Id" class="form-control" />
+        <input asp-for="@Model.UserProduct.Product.Id" class="form-control" />
         <button type="submit" asp-controller="Products" asp-action="Update" class="btn btn-block btn-success">Edytuj</button>
     </form>
 </div>

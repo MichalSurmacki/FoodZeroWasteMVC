@@ -7,9 +7,9 @@
 @for (int i = 0; i < Model.Count; i++)
 {
     <li>
-        <input class="form-control-plaintext" asp-for="@Model[i].Name" onfocus="this.blur()" />
-        <input class="form-control-plaintext" asp-for="@Model[i].Amount" onfocus="this.blur()" />
-        <input class="form-control-plaintext" asp-for="@Model[i].Unit" onfocus="this.blur()"/>
+        <input class="form-control-plaintext" asp-for="@Model[i].Product.Name" onfocus="this.blur()" />
+        <input class="form-control-plaintext" asp-for="@Model[i].Product.Amount" onfocus="this.blur()" />
+        <input class="form-control-plaintext" asp-for="@Model[i].Product.Unit" onfocus="this.blur()"/>
         <input class="form-control-plaintext" asp-for="@Model[i].Kcal" onfocus="this.blur()"/>
     </li>
 }

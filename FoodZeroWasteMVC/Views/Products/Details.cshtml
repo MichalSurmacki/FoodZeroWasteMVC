@@ -2,12 +2,12 @@
 
 <div class="zw-pink-lavender-bg w-50 p-2 rounded text-center d-flex flex-column align-items-center">
 
-    <h2>@Model.Product.Name</h2>
+    <h2>@Model.UserProduct.Product.Name</h2>
 
-    <h2>@Model.Product.Amount @Model.Product.Unit</h2>
+    <h2>@Model.UserProduct.Product.Amount @Model.UserProduct.Product.Unit</h2>
 
-    <h2>@Model.Product.ExpirationDate</h2>
+    <h2>@Model.UserProduct.ExpirationDate</h2>
 
-    <a asp-action="Edit" asp-controller="Products" asp-route-id="@Model.Product.Id" class="btn">Edit</a>
+    <a asp-action="Edit" asp-controller="Products" asp-route-id="@Model.UserProduct.Product.Id" class="btn">Edit</a>
 
 </div>

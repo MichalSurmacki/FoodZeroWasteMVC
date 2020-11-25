@@ -8,7 +8,8 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public string Email { get; set; }
-        public IList<FavouriteRecipie> FavouritesRecipies { get; set; }
-        public IList<UserProduct> UserProducts { get; set; }
+        public virtual IList<FavouriteRecipie> FavouritesRecipies { get; set; }
+        public virtual IList<UserProduct> UserProducts { get; set; }
+        public virtual IList<UserSessionCaloriesLog> UserCaloriesLogs { get; set; }
     }
 }

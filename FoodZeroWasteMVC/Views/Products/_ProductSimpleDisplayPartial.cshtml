@@ -1,16 +1,40 @@
-﻿@model Application.Common.Dtos.ProductReadDto
+﻿@model Application.Common.Dtos.UserProductReadDto
 
 <div class="list-group-item w-75 d-flex flex-row justify-content-center align-items-center">
     <p class="font-weight-bold zw-flex-basis-35">
-        @Model.Name
+        @Model.Product.Name
     </p>
     <p class="zw-flex-basis-15 text-center">
-        @Model.Amount
-        @Model.Unit
+        @Model.Product.Amount
+        @Model.Product.Unit
     </p>
-    <p class="zw-flex-basis-15 text-center mr-auto">
-        @Model.ExpirationDate.Date.ToString("dd.MM.yyyy")
-    </p>
+    @{
+        var date = DateTime.Now;
+    }
+    @if (Model.ExpirationDate < date)
+    {
+        <p class="alert alert-dark zw-flex-basis-15 text-center mr-auto">
+            @Model.ExpirationDate.Date.ToString("dd.MM.yyyy")
+        </p>
+    }
+    else if (Model.ExpirationDate < date.AddDays(7))
+    {
+        <p class="alert alert-danger zw-flex-basis-15 text-center mr-auto">
+            @Model.ExpirationDate.Date.ToString("dd.MM.yyyy")
+        </p>
+    }
+    else if (Model.ExpirationDate < date.AddDays(14))
+    {
+        <p class="alert alert-warning zw-flex-basis-15 text-center mr-auto">
+            @Model.ExpirationDate.Date.ToString("dd.MM.yyyy")
+        </p>
+    }
+    else
+    {
+        <p class="alert alert-success zw-flex-basis-15 text-center mr-auto">
+            @Model.ExpirationDate.Date.ToString("dd.MM.yyyy")
+        </p>
+    }
     <a class="btn btn-primary" asp-action="Edit" asp-controller="Products" asp-route-id="@Model.Id">
         Edytuj
     </a>

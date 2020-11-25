@@ -7,8 +7,8 @@ namespace Domain.Entities
     public class UserProduct
     {
         public Guid Id { get; set; }
-        public Product Product { get; set; }
         public DateTime ExpirationDate { get; set; }
-        public UserData UserData { get; set; }
+        public virtual Product Product { get; set; }
+        public virtual UserData UserData { get; set; }
     }
 }

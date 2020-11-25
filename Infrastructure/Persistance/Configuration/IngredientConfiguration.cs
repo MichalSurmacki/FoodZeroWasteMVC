@@ -11,15 +11,6 @@ namespace Infrastructure.Persistance.Configuration
             builder.HasKey(i => i.Id);
             builder.Property(i => i.Id)
                 .HasDefaultValueSql("NEWID()");
-
-            builder.Property(i => i.Name)
-                .HasMaxLength(100)
-                .IsRequired()
-                .IsUnicode();
-
-            builder.Property(i => i.Unit)
-                .HasMaxLength(30)
-                .IsUnicode();
         }
     }
 }

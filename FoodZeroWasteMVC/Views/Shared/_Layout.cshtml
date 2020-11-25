@@ -19,18 +19,27 @@
             <header>
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                     <div class="container">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FoodZeroWasteMVC</a>
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FZW</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                             <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <li class="dropdown nav-link text-dark">
+                                    <a class="dropdown-toggle zw-cursor-pointer" id="dropdownMenuLink" data-toggle="dropdown">Odżywianie<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" asp-controller="" asp-action="">Licznik kalorii</a></li>
+                                        <li><a class="dropdown-item" asp-controller="" asp-action="">Ustawienia</a></li>
+                                    </ul>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                                <li class="dropdown nav-link text-dark">
+                                    <a class="dropdown-toggle zw-cursor-pointer" id="dropdownMenuLink" data-toggle="dropdown">Produkty<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" asp-controller="Products" asp-action="Index">Lodówka</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Products" asp-action="Create">Dodaj</a></li>
+                                        <li><a class="dropdown-item">Zaproponuj posiłek</a></li>
+                                    </ul>
                                 </li>
                                 <li class="dropdown nav-link text-dark">
                                     <a class="dropdown-toggle zw-cursor-pointer" id="dropdownMenuLink" data-toggle="dropdown">Przepisy<span class="caret"></span></a>
@@ -40,17 +49,17 @@
                                         <li><a class="dropdown-item">Ulubione</a></li>
                                     </ul>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">O Aplikacji</a>
+                                </li>
                             </ul>
                             <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
+                                <li class="nav-item nav-link">
                                     <form method="post" asp-action="logout" asp-controller="account">
                                         <button type="submit" class="nav-link btn btn-link py-0 w-auto">
-                                            Logout @User.Identity.Name
+                                            Wyloguj
                                         </button>
                                     </form>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                                 </li>
                             </ul>
                         </div>

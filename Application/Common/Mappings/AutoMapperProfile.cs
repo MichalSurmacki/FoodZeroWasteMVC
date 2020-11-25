@@ -14,7 +14,7 @@ namespace Application.Common.Mappings
             ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
 
            
-            CreateMap<Recipie, RecipieDto>();
+            CreateMap<Recipie, RecipieReadDto>();
 
             CreateMap<InstructionStepDto, InstructionStep>();
             CreateMap<TagDto, Tag>();
@@ -25,7 +25,7 @@ namespace Application.Common.Mappings
 
             CreateMap<Recipie, RecipieCreateDto>();
 
-            CreateMap<RecipieCreateDto, RecipieDto>();
+            CreateMap<RecipieCreateDto, RecipieReadDto>();
 
             CreateMap<Tag, TagDto>();
             CreateMap<RecipieComponent, RecipieComponentDto>();
@@ -35,6 +35,13 @@ namespace Application.Common.Mappings
 
             CreateMap<Product, ProductReadDto>();
             CreateMap<ProductCreateDto, Product>();
+
+            CreateMap<UserProduct, UserProductReadDto>();
+
+            CreateMap<UserData, UserDataReadDto>();
+
+            CreateMap<UserSessionCaloriesLog, UserSessionCaloriesLogReadDto>();
+            CreateMap<UserSessionCaloriesLogCreateDto, UserSessionCaloriesLog>();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

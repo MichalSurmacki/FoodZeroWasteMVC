@@ -10,6 +10,6 @@ namespace Domain.Entities
         public string Name { get; set; }
         public float Amount { get; set; }
         public string Unit { get; set; }
-        public IList<Tag> Tags { get; set; }
+        public virtual IList<Tag> Tags { get; set; }
     }
 }

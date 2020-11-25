@@ -1,6 +1,6 @@
 ﻿@{
     @using Application.Common.Dtos
-    @model RecipieDto
+    @model RecipieReadDto
     List<InstructionStepDto> SortedList = Model.InstructionSteps.OrderBy(i => i.StepOrder).ToList();
 }
 
@@ -56,15 +56,15 @@
                             {
                                 <li class="list-group-item d-flex align-items-center">
                                     <span class="pr-5 zw-flex-basis-70">
-                                        @ingg.Name
+                                        @ingg.Product.Name
                                     </span>
-                                    @if (ingg.Amount > 0 || ingg.Kcal > 0)
+                                    @if (ingg.Product.Amount > 0 || ingg.Kcal > 0)
                                     {
                                         <div class="d-flex align-items-center zw-flex-basis-30">
-                                            @if (ingg.Amount > 0)
+                                            @if (ingg.Product.Amount > 0)
                                             {
                                                 <span class="mr-auto">
-                                                    @ingg.Amount @ingg.Unit
+                                                    @ingg.Product.Amount @ingg.Product.Unit
                                                 </span>
                                             }
                                             @if (ingg.Kcal > 0)

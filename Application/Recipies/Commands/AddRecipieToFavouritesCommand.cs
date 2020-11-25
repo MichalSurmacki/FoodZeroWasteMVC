@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Recipies.Commands
 {
-    public class AddRecipieToFavouritesCommand : IRequest<RecipieDto>
+    public class AddRecipieToFavouritesCommand : IRequest<RecipieReadDto>
     {
         public Guid Id { get; set; }
         public string UserName { get; set; }
@@ -22,7 +22,7 @@ namespace Application.Recipies.Commands
             UserName = userName;
         }
 
-        public class AddRecipieToFavouritesHandler : IRequestHandler<AddRecipieToFavouritesCommand, RecipieDto>
+        public class AddRecipieToFavouritesHandler : IRequestHandler<AddRecipieToFavouritesCommand, RecipieReadDto>
         {
             private readonly IMapper _mapper;
             private readonly IApplicationDbContext _context;
@@ -33,7 +33,7 @@ namespace Application.Recipies.Commands
                 _context = context;
             }
 
-            public Task<RecipieDto> Handle(AddRecipieToFavouritesCommand request, CancellationToken cancellationToken)
+            public Task<RecipieReadDto> Handle(AddRecipieToFavouritesCommand request, CancellationToken cancellationToken)
             {
                 
                 FavouriteRecipie favouriteRecipie = new FavouriteRecipie();
@@ -48,7 +48,7 @@ namespace Application.Recipies.Commands
                 _context.SaveChanges();
 
                 //TODO co z tymi task.fromresult ??
-                return Task.FromResult(_mapper.Map<RecipieDto>(recipie));
+                return Task.FromResult(_mapper.Map<RecipieReadDto>(recipie));
             }
         }
     }
